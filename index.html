@@ -3,12 +3,9 @@
 <head>
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>Stop Blaming People for Bad Passwords — Cours + Flashcards</title>
-<meta name="description" content="Fiche de révision complète (Cybersecurity) + Flashcards interactives : flip 3D, progression, TTS, impression PDF." />
+<title>Mental Health and the Gig Economy — Cours + Flashcards</title>
+<meta name="description" content="Fiche de révision complète (Work & Society) + Flashcards interactives." />
 <style>
-  /* ===============================
-     Design System
-     =============================== */
   :root{
     --bg:#0b1020;
     --surface:#0f172a;
@@ -62,10 +59,6 @@
     background: linear-gradient(90deg, rgba(251, 113, 133, 0.14), transparent);
   }
 
-  .fc-a, .fc-q {
-    white-space: pre-line;
-  }
-
   .hero h1{margin:0 0 6px; font-size: clamp(24px, 4vw, 36px)}
   .hero .sub{margin:0; color:var(--muted)}
   .toolbar{display:flex; gap:10px; flex-wrap:wrap; margin-top:14px}
@@ -73,21 +66,23 @@
     appearance:none; border:1px solid var(--border); background:var(--surface);
     color:var(--text); padding:10px 14px; border-radius:12px; cursor:pointer;
     font-weight:700; box-shadow:var(--shadow); transition:.18s transform, .18s box-shadow, .18s background;
+    user-select:none;
   }
   .btn:hover{transform: translateY(-1px)}
+  .btn:active{transform: translateY(0)}
   .btn.primary{background:var(--link); color:#fff; border-color:transparent}
   .btn.success{background:var(--ok); color:#00140a; border-color:transparent}
   .btn.warn{background:var(--warn); color:#1b1200; border-color:transparent}
   .btn.ghost{background:transparent}
 
   .grid{display:grid; grid-template-columns: 1fr; gap:22px; margin-top:22px}
-  @media (min-width: 1000px){ .grid{ grid-template-columns: 380px 1fr } }
+  @media (min-width: 1000px){ .grid{ grid-template-columns: 420px 1fr } }
 
   .fc-panel{
     background:var(--panel); border:1px solid var(--border); border-radius:var(--radius);
     box-shadow:var(--shadow); padding:16px; position:sticky; top:14px; align-self:start;
   }
-  .fc-header{display:flex; justify-content:space-between; gap:10px; align-items:center; margin-bottom:10px}
+  .fc-header{display:flex; justify-content:space-between; gap:10px; align-items:center; margin-bottom:10px; flex-wrap:wrap;}
   .fc-title{margin:0; font-size:20px}
   .meta{color:var(--muted); font-size:13px}
   .progress{
@@ -98,28 +93,118 @@
   .score .pill{background:var(--chip); color:var(--muted); border:1px solid var(--border);
     border-radius:999px; padding:6px 10px; font-weight:700; font-size:12px}
   .fc-controls{display:flex; gap:8px; flex-wrap:wrap; margin:8px 0 12px}
-  .toggle{display:inline-flex; align-items:center; gap:8px; padding:8px 10px; border-radius:12px; border:1px solid var(--border); background:var(--surface)}
-  .toggle input{transform: scale(1.2)}
-  .fc-cardwrap{perspective:1100px}
+  
+  /* ===== FLASHCARD STYLES - SOLUTION SANS 3D ===== */
+  .fc-cardwrap{
+    margin-top:12px;
+    min-height: 250px;
+  }
+  
   .flashcard{
-    position:relative; width:100%; min-height:180px; border-radius:16px; border:1px solid var(--border);
-    transform-style:preserve-3d; transition: transform .6s; cursor:pointer;
-    background:linear-gradient(180deg, rgba(122,162,255,.07), rgba(45,212,191,.07));
-    box-shadow:var(--shadow);
+    position: relative;
+    width: 100%;
+    min-height: 250px;
+    cursor: pointer;
+    border-radius: 16px;
+    border: 2px solid var(--border);
+    background: linear-gradient(135deg, rgba(122,162,255,.08), rgba(45,212,191,.08));
+    box-shadow: var(--shadow);
+    overflow: hidden;
   }
-  .flashcard.is-flipped{ transform: rotateY(180deg) }
-  .face{
-    position:absolute; inset:0; padding:18px; backface-visibility:hidden; display:flex; flex-direction:column; justify-content:center; gap:10px;
+  
+  .fc-face{
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    padding: 24px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    transition: opacity 0.3s ease, visibility 0.3s ease;
   }
-  .face.back{ transform: rotateY(180deg) }
-  .fc-q{font-weight:800; font-size: clamp(16px, 2.2vw, 22px)}
-  .fc-a{font-size: clamp(14px, 2vw, 18px); color:var(--text)}
-  .fc-hint{color:var(--muted); font-size:13px}
-  .fc-actions{display:flex; gap:10px; margin-top:12px; flex-wrap:wrap}
-  .btn.icon{display:inline-flex; align-items:center; gap:8px}
+  
+  .fc-front{
+    background: linear-gradient(135deg, rgba(56,189,248,.1), rgba(122,162,255,.05));
+    opacity: 1;
+    visibility: visible;
+  }
+  
+  .fc-back{
+    background: linear-gradient(135deg, rgba(45,212,191,.1), rgba(122,162,255,.05));
+    opacity: 0;
+    visibility: hidden;
+  }
+  
+  /* Quand la carte est retournée */
+  .flashcard.flipped .fc-front{
+    opacity: 0;
+    visibility: hidden;
+  }
+  
+  .flashcard.flipped .fc-back{
+    opacity: 1;
+    visibility: visible;
+  }
+  
+  .fc-label{
+    font-size: 12px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+    color: var(--accent);
+    margin-bottom: 12px;
+    padding: 4px 12px;
+    background: rgba(56,189,248,.15);
+    border-radius: 20px;
+  }
+  
+  .fc-back .fc-label{
+    color: var(--accent-2);
+    background: rgba(45,212,191,.15);
+  }
+  
+  .fc-q{
+    font-weight: 700;
+    font-size: 18px;
+    line-height: 1.5;
+    color: var(--text);
+    max-width: 100%;
+  }
+  
+  .fc-a{
+    font-size: 16px;
+    color: var(--text);
+    line-height: 1.6;
+    white-space: pre-line;
+    max-width: 100%;
+    overflow-y: auto;
+    max-height: 180px;
+  }
+  
+  .fc-hint{
+    color: var(--muted);
+    font-size: 12px;
+    margin-top: 16px;
+    padding: 6px 12px;
+    background: rgba(163,173,194,.1);
+    border-radius: 8px;
+  }
+  
+  .btn.icon{display:inline-flex; align-items:center; gap:6px; font-size:14px;}
   .caps{font-variant: all-small-caps; letter-spacing:.4px}
-  .key{font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; background:var(--chip); border:1px solid var(--border);
-    border-radius:8px; padding:2px 6px; font-size:12px; color:var(--muted)}
+  .key{
+    font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+    background: var(--chip);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    padding: 2px 8px;
+    font-size: 11px;
+    color: var(--muted);
+  }
 
   .card{
     background:var(--panel); border:1px solid var(--border); border-radius:var(--radius);
@@ -128,41 +213,29 @@
   .card h2{margin-top:0; font-size: clamp(20px, 3vw, 28px)}
   .card h3{color:var(--accent); margin-top: 1.5rem}
   .copybar{position:absolute; top:12px; right:12px; display:flex; gap:8px}
-  .badge{display:inline-block; background:var(--chip); border:1px solid var(--border); color:var(--muted);
-    padding:6px 10px; border-radius:999px; font-weight:700; font-size:12px; margin:6px 6px 0 0}
   .callout{border-left:6px solid var(--accent); background:linear-gradient(90deg, rgba(56,189,248,.14), transparent);
     padding:12px 14px; border-radius: var(--r-sm); margin:12px 0}
   .callout.ex{border-left-color:var(--accent-2); background:linear-gradient(90deg, rgba(45,212,191,.14), transparent)}
   .callout.points{border-left-color:#a78bfa; background:linear-gradient(90deg, rgba(167,139,250,.14), transparent)}
   mark{background:linear-gradient(180deg, rgba(250,204,21,.36), rgba(250,204,21,.18)); border-radius:4px; padding:0 .2em}
   ul{margin-top:6px}
-  .hr{height:1px; background:var(--border); margin:14px 0}
   .toc{display:flex; gap:8px; flex-wrap:wrap; margin-top:8px}
   .toc a{padding:8px 10px; border:1px solid var(--border); border-radius:12px; background:var(--surface); color:var(--link); font-weight:700}
   .muted{color:var(--muted)}
-  .hidden{display:none !important}
-  
-  .answer-container { margin-top: 10px; }
-  .answer-toggle { background: var(--chip); border: 1px solid var(--border); color: var(--muted);
-    padding: 8px 12px; border-radius: 8px; cursor: pointer; font-size: 14px; margin-top: 8px; display: inline-block; }
-  .answer-content { display: none; margin-top: 10px; padding: 12px; background: rgba(56,189,248,.08); 
-    border-radius: 8px; border-left: 3px solid var(--accent); }
-  .answer-content.show { display: block; }
 
   @media print{
-    .fc-panel, .toolbar, .copybar, .toc, .answer-toggle{display:none !important}
+    .fc-panel, .toolbar, .copybar, .toc{display:none !important}
     .grid{grid-template-columns: 1fr}
     body{background:#fff; color:#000}
     .card{break-inside: avoid; border-color:#ddd; box-shadow:none}
-    .answer-content { display: block !important; }
   }
 </style>
 </head>
 <body data-theme="dark">
 <div class="container">
   <header class="hero">
-    <h1>🔐 STOP BLAMING PEOPLE FOR BAD PASSWORDS</h1>
-    <p class="sub">🧩 THEME: CYBERSECURITY & DIGITAL DESIGN | Level B2-C1 — Fiche complète + Flashcards interactives</p>
+    <h1>🧠 MENTAL HEALTH AND THE GIG ECONOMY</h1>
+    <p class="sub">🧩 THEME: WORK & SOCIETY | Level B2-C1 — Fiche complète + Flashcards interactives</p>
     <div class="toolbar">
       <button class="btn" id="toggleTheme">🌗 Mode clair/sombre</button>
       <button class="btn warn" id="btnPrint">🖨️ Imprimer / PDF</button>
@@ -174,31 +247,36 @@
     <!-- ============ FLASHCARDS ============ -->
     <aside class="fc-panel" id="flashcards">
       <div class="fc-header">
-        <h2 class="fc-title">Flashcards <span class="caps" style="color:var(--muted)">Passwords</span></h2>
-        <span class="meta">Raccourcis : <span class="key">Espace</span> retourner • <span class="key">→</span> suivant</span>
+        <h2 class="fc-title">Flashcards <span class="caps" style="color:var(--muted)">Gig Economy</span></h2>
       </div>
+      <p class="meta">Raccourcis : <span class="key">Espace</span> retourner · <span class="key">←</span> <span class="key">→</span> naviguer</p>
 
       <div class="score">
-        <span class="pill">Carte : <b id="index">1</b>/<b id="total">-</b></span>
+        <span class="pill">Carte <b id="fcIndex">1</b> sur <b id="fcTotal">-</b></span>
       </div>
-      <div class="progress" aria-label="Progression"><i id="bar"></i></div>
+      <div class="progress"><i id="fcBar"></i></div>
 
-      <div class="fc-controls" role="group" aria-label="Actions flashcards">
-        <button class="btn icon" id="btnPrev">⬅️ Préc.</button>
-        <button class="btn icon" id="btnFlip">🔁 Retourner</button>
-        <button class="btn icon" id="btnNext">➡️ Suiv.</button>
-        <button class="btn icon" id="btnShuffle">🎲 Shuffle</button>
-        <button class="btn icon" id="btnSpeak">🔊 Lire</button>
+      <div class="fc-controls">
+        <button class="btn icon" id="btnPrev">⬅️ Précédent</button>
+        <button class="btn icon primary" id="btnFlip">🔄 Retourner</button>
+        <button class="btn icon" id="btnNext">Suivant ➡️</button>
+      </div>
+      <div class="fc-controls">
+        <button class="btn icon" id="btnShuffle">🎲 Mélanger</button>
+        <button class="btn icon" id="btnReset">🔁 Réinitialiser</button>
+        <button class="btn icon" id="btnSpeak">🔊 Écouter</button>
       </div>
 
       <div class="fc-cardwrap">
-        <div class="flashcard" id="card" aria-live="polite">
-          <div class="face front">
-            <div class="fc-q" id="q">…</div>
-            <div class="fc-hint muted">Clique / <span class="key">Espace</span> pour retourner</div>
+        <div class="flashcard" id="flashcard">
+          <div class="fc-face fc-front">
+            <div class="fc-label">❓ Question</div>
+            <div class="fc-q" id="fcQuestion">Chargement...</div>
+            <div class="fc-hint">Cliquez ou appuyez sur <span class="key">Espace</span></div>
           </div>
-          <div class="face back">
-            <div class="fc-a" id="a">…</div>
+          <div class="fc-face fc-back">
+            <div class="fc-label">✅ Réponse</div>
+            <div class="fc-a" id="fcAnswer">Chargement...</div>
           </div>
         </div>
       </div>
@@ -206,262 +284,195 @@
 
     <!-- ============ FICHE DE COURS ============ -->
     <main>
-      <!-- Sommaire rapide -->
       <div class="card">
         <h2>Sommaire rapide</h2>
         <div class="toc">
-          <a href="#context">General Context</a>
-          <a href="#vocabulary">Key Vocabulary</a>
-          <a href="#causes">Why Users Fail</a>
-          <a href="#responsibility">Platform Responsibility</a>
+          <a href="#context">Context</a>
+          <a href="#vocabulary">Vocabulary</a>
+          <a href="#characteristics">Characteristics</a>
+          <a href="#psychological">Psychological Effects</a>
+          <a href="#statistics">Statistics</a>
           <a href="#solutions">Solutions</a>
           <a href="#expressions">Expressions</a>
-          <a href="#recap">Vocabulary Recap</a>
           <a href="#conclusion">Conclusion</a>
         </div>
       </div>
 
       <section class="card" id="context">
         <div class="copybar"><button class="btn ghost" data-copy="#context">📋 Copier</button></div>
-        <h2>1️⃣ General Context</h2>
+        <h2>1️⃣ General Context — What is the Gig Economy?</h2>
         
         <div class="callout">
-          <p><strong>English:</strong> Password security is one of the most widespread and persistent cybersecurity problems in the world. Every year, billions of accounts are compromised due to weak, predictable, or reused passwords. Despite years of cybersecurity education, lists of the most common passwords still include "123456", "password", "qwerty", and simple sequences. The text argues that it is wrong to blame users alone, because password insecurity is caused by systemic, structural, psychological, and design-related factors.</p>
-          <p class="muted"><strong>Français:</strong> La sécurité des mots de passe est l'un des problèmes de cybersécurité les plus répandus au monde. Chaque année, des milliards de comptes sont piratés à cause de mots de passe faibles, prévisibles ou réutilisés. Malgré des campagnes de sensibilisation depuis 15 ans, les mots de passe les plus utilisés restent "123456", "password" ou "qwerty". Le texte affirme qu'il est injuste et inefficace de blâmer uniquement les utilisateurs, car l'insécurité provient de facteurs systémiques, structurels, psychologiques et liés au design.</p>
+          <p><strong>English:</strong> The gig economy is an employment system where people work as independent contractors on digital platforms, performing short-term, on-demand tasks (gigs). Examples include Uber, Deliveroo, Fiverr, TaskRabbit, and Upwork. While offering flexibility, this model often lacks traditional employment protections and can significantly impact workers' mental health.</p>
+          <p class="muted"><strong>Français:</strong> La gig economy est un système de travail où les gens effectuent des missions courtes, à la demande, via des plateformes numériques. Si elle offre de la flexibilité, ce modèle manque souvent de protections sociales traditionnelles.</p>
+        </div>
+
+        <div class="callout ex">
+          <p><strong>Key platforms:</strong></p>
+          <ul>
+            <li><strong>Transportation:</strong> Uber, Lyft, Bolt</li>
+            <li><strong>Delivery:</strong> Deliveroo, Uber Eats, DoorDash</li>
+            <li><strong>Freelance:</strong> Fiverr, Upwork, TaskRabbit</li>
+          </ul>
         </div>
       </section>
 
       <section class="card" id="vocabulary">
         <div class="copybar"><button class="btn ghost" data-copy="#vocabulary">📋 Copier</button></div>
-        <h2>2️⃣ Key Vocabulary and Definitions</h2>
+        <h2>2️⃣ Key Vocabulary</h2>
         
         <div class="callout points">
           <table style="width:100%; border-collapse: collapse;">
             <thead>
               <tr>
-                <th style="text-align:left; padding:8px; border-bottom:1px solid var(--border)">English term</th>
-                <th style="text-align:left; padding:8px; border-bottom:1px solid var(--border)">Definition (EN)</th>
-                <th style="text-align:left; padding:8px; border-bottom:1px solid var(--border)">Traduction française</th>
+                <th style="text-align:left; padding:8px; border-bottom:1px solid var(--border)">English</th>
+                <th style="text-align:left; padding:8px; border-bottom:1px solid var(--border)">Definition</th>
+                <th style="text-align:left; padding:8px; border-bottom:1px solid var(--border)">Français</th>
               </tr>
             </thead>
             <tbody>
-              <tr><td style="padding:8px"><strong>Password</strong></td><td style="padding:8px">A secret string of characters used to access an account.</td><td style="padding:8px">Mot de passe : chaîne secrète pour accéder à un compte.</td></tr>
-              <tr><td style="padding:8px"><strong>Passphrase</strong></td><td style="padding:8px">A long password made of several words, easier to remember.</td><td style="padding:8px">Phrase de passe : mot de passe long composé de plusieurs mots.</td></tr>
-              <tr><td style="padding:8px"><strong>Cognitive overload</strong></td><td style="padding:8px">When the brain has too much information to process.</td><td style="padding:8px">Surcharge cognitive : quand le cerveau a trop d'informations à traiter.</td></tr>
-              <tr><td style="padding:8px"><strong>Password fatigue</strong></td><td style="padding:8px">Exhaustion from managing too many passwords.</td><td style="padding:8px">Fatigue des mots de passe : épuisement lié à la gestion de trop de mots de passe.</td></tr>
-              <tr><td style="padding:8px"><strong>Blocklist / Deny-list</strong></td><td style="padding:8px">A list of forbidden weak passwords.</td><td style="padding:8px">Liste noire : liste de mots de passe faibles interdits.</td></tr>
-              <tr><td style="padding:8px"><strong>Strength meter</strong></td><td style="padding:8px">A visual indicator showing password strength.</td><td style="padding:8px">Jauge de robustesse : indicateur visuel de la force du mot de passe.</td></tr>
-              <tr><td style="padding:8px"><strong>Password manager</strong></td><td style="padding:8px">Software that stores and generates secure passwords.</td><td style="padding:8px">Gestionnaire de mots de passe : logiciel qui stocke et génère des mots de passe.</td></tr>
-              <tr><td style="padding:8px"><strong>MFA / 2FA</strong></td><td style="padding:8px">Multi-Factor Authentication: extra security layer beyond password.</td><td style="padding:8px">Authentification multi-facteurs : couche de sécurité supplémentaire.</td></tr>
-              <tr><td style="padding:8px"><strong>Credential stuffing</strong></td><td style="padding:8px">Attack using stolen passwords on multiple sites.</td><td style="padding:8px">Bourrage d'identifiants : attaque utilisant des mots de passe volés.</td></tr>
-              <tr><td style="padding:8px"><strong>Data breach</strong></td><td style="padding:8px">When hackers steal user data from a company.</td><td style="padding:8px">Fuite de données : vol de données utilisateurs.</td></tr>
-              <tr><td style="padding:8px"><strong>Security theatre</strong></td><td style="padding:8px">Security measures that look effective but aren't.</td><td style="padding:8px">Théâtre sécuritaire : mesures qui semblent efficaces mais ne le sont pas.</td></tr>
-              <tr><td style="padding:8px"><strong>User behaviour</strong></td><td style="padding:8px">How users act when creating or managing passwords.</td><td style="padding:8px">Comportement utilisateur : comment les utilisateurs gèrent leurs mots de passe.</td></tr>
+              <tr><td style="padding:8px"><strong>Gig economy</strong></td><td style="padding:8px">Economy based on short-term jobs via platforms</td><td style="padding:8px">Économie des petits boulots</td></tr>
+              <tr><td style="padding:8px"><strong>Gig worker</strong></td><td style="padding:8px">Person working through digital platforms</td><td style="padding:8px">Travailleur à la tâche</td></tr>
+              <tr><td style="padding:8px"><strong>Algorithmic management</strong></td><td style="padding:8px">When algorithms control work and pay</td><td style="padding:8px">Gestion algorithmique</td></tr>
+              <tr><td style="padding:8px"><strong>Precarity</strong></td><td style="padding:8px">State of job insecurity</td><td style="padding:8px">Précarité</td></tr>
+              <tr><td style="padding:8px"><strong>Loneliness</strong></td><td style="padding:8px">Feeling of being alone</td><td style="padding:8px">Solitude</td></tr>
+              <tr><td style="padding:8px"><strong>Anxiety</strong></td><td style="padding:8px">Worry about the future</td><td style="padding:8px">Anxiété</td></tr>
+              <tr><td style="padding:8px"><strong>Burnout</strong></td><td style="padding:8px">Exhaustion from overwork</td><td style="padding:8px">Épuisement professionnel</td></tr>
+              <tr><td style="padding:8px"><strong>Deactivation</strong></td><td style="padding:8px">Being removed from platform</td><td style="padding:8px">Désactivation</td></tr>
             </tbody>
           </table>
         </div>
       </section>
 
-      <section class="card" id="causes">
-        <div class="copybar"><button class="btn ghost" data-copy="#causes">📋 Copier</button></div>
-        <h2>3️⃣ Why Do Users Create Weak Passwords?</h2>
+      <section class="card" id="characteristics">
+        <div class="copybar"><button class="btn ghost" data-copy="#characteristics">📋 Copier</button></div>
+        <h2>3️⃣ Gig Work vs Traditional Employment</h2>
         
-        <h3>1. Cognitive Limitations</h3>
+        <div class="callout points">
+          <table style="width:100%; border-collapse: collapse;">
+            <thead>
+              <tr>
+                <th style="text-align:left; padding:8px; border-bottom:1px solid var(--border)">Aspect</th>
+                <th style="text-align:left; padding:8px; border-bottom:1px solid var(--border)">Traditional</th>
+                <th style="text-align:left; padding:8px; border-bottom:1px solid var(--border)">Gig Work</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr><td style="padding:8px">Schedule</td><td style="padding:8px">Fixed hours</td><td style="padding:8px">Flexible</td></tr>
+              <tr><td style="padding:8px">Income</td><td style="padding:8px">Regular salary</td><td style="padding:8px">Unpredictable</td></tr>
+              <tr><td style="padding:8px">Benefits</td><td style="padding:8px">Insurance, sick leave</td><td style="padding:8px">None</td></tr>
+              <tr><td style="padding:8px">Management</td><td style="padding:8px">Human supervisors</td><td style="padding:8px">Algorithms</td></tr>
+              <tr><td style="padding:8px">Social</td><td style="padding:8px">Colleagues, team</td><td style="padding:8px">Working alone</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+
+      <section class="card" id="psychological">
+        <div class="copybar"><button class="btn ghost" data-copy="#psychological">📋 Copier</button></div>
+        <h2>4️⃣ Psychological Effects</h2>
+        
+        <h3>1. Loneliness</h3>
         <div class="callout">
-          <p><strong>English:</strong> Humans cannot remember long, complex, unique passwords for 50+ accounts. Cognitive load is too high. Memory is optimized for meaning, not for random strings like "Hg2$!pR97". The average person has 90 digital accounts — memorizing 90 unique passwords is impossible.</p>
-          <p class="muted"><strong>Français:</strong> Les êtres humains ne peuvent pas mémoriser des dizaines de mots de passe longs, uniques et complexes. La charge cognitive est trop lourde. La mémoire humaine retient le sens, pas des chaînes aléatoires. Une personne moyenne a 90 comptes numériques — mémoriser 90 mots de passe uniques est impossible.</p>
+          <p>Gig workers work alone, without colleagues or teams. They lack daily social interaction.</p>
         </div>
 
-        <h3>2. The Complexity Fallacy</h3>
+        <h3>2. Powerlessness</h3>
         <div class="callout ex">
-          <p><strong>English:</strong> Websites often force users to include symbols, upper-case letters, numbers, etc., believing it improves security. But research shows this makes passwords worse, because users adopt predictable modifications: "Password" → "Password1!" or "Paris2023" → "Paris2023!". These patterns are easy for hackers to guess.</p>
-          <p class="muted"><strong>Français:</strong> Les sites imposent souvent des exigences absurdes (symboles, majuscules, chiffres). Or, les recherches montrent que cela aggrave la situation : les gens adoptent des transformations prévisibles. Ces schémas sont faciles à deviner pour les hackers.</p>
+          <p>Algorithms decide everything: pay, job availability, rankings. Workers fear "deactivation" without explanation.</p>
         </div>
 
-        <h3>3. Password Fatigue</h3>
-        <div class="callout">
-          <p><strong>English:</strong> Because people have accounts for emails, banking, shopping, work, entertainment, social media, etc., they face password fatigue, leading to shortcuts like reusing the same password everywhere or using simple variations.</p>
-          <p class="muted"><strong>Français:</strong> Parce que les utilisateurs ont des comptes partout (banque, travail, réseaux sociaux, e-commerce…), ils vivent une fatigue des mots de passe, qui les pousse à simplifier et réutiliser.</p>
-        </div>
-
-        <h3>4. Blaming Users is Counterproductive</h3>
+        <h3>3. Anxiety & Stress</h3>
         <div class="callout danger">
-          <p><strong>English:</strong> Shaming people does not change behaviour. It creates anxiety, avoidance, and frustration. It ignores psychological limitations and prevents meaningful reforms.</p>
-          <p class="muted"><strong>Français:</strong> Blâmer les utilisateurs est inutile. Cela provoque de l'anxiété, de l'évitement et de la frustration. Cela ignore les limites psychologiques et empêche les vraies réformes.</p>
+          <ul>
+            <li>Unpredictable income</li>
+            <li>Dependence on customer ratings</li>
+            <li>Risk of deactivation</li>
+            <li>No job security</li>
+          </ul>
+        </div>
+
+        <h3>4. Burnout</h3>
+        <div class="callout">
+          <p>Constant uncertainty drains mental energy. Workers feel they must always be available.</p>
         </div>
       </section>
 
-      <section class="card" id="responsibility">
-        <div class="copybar"><button class="btn ghost" data-copy="#responsibility">📋 Copier</button></div>
-        <h2>4️⃣ Platform Responsibility — How Websites Contribute to Insecurity</h2>
+      <section class="card" id="statistics">
+        <div class="copybar"><button class="btn ghost" data-copy="#statistics">📋 Copier</button></div>
+        <h2>5️⃣ Key Statistics</h2>
         
         <div class="callout points">
-          <table style="width:100%; border-collapse: collapse;">
-            <thead>
-              <tr>
-                <th style="text-align:left; padding:8px; border-bottom:1px solid var(--border)">Problem</th>
-                <th style="text-align:left; padding:8px; border-bottom:1px solid var(--border)">English explanation</th>
-                <th style="text-align:left; padding:8px; border-bottom:1px solid var(--border)">Traduction française</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr><td style="padding:8px"><strong>Allowing weak passwords</strong></td><td style="padding:8px">Many platforms still accept "123456" or "password".</td><td style="padding:8px">Beaucoup de plateformes acceptent encore des mots de passe très faibles.</td></tr>
-              <tr><td style="padding:8px"><strong>Poor design choices</strong></td><td style="padding:8px">Complex rules that don't actually improve security.</td><td style="padding:8px">Règles complexes qui n'améliorent pas vraiment la sécurité.</td></tr>
-              <tr><td style="padding:8px"><strong>Blocking helpful tools</strong></td><td style="padding:8px">Some sites prevent copy/paste, discouraging password managers.</td><td style="padding:8px">Certains sites bloquent le copier-coller, décourageant les gestionnaires.</td></tr>
-              <tr><td style="padding:8px"><strong>Lack of guidance</strong></td><td style="padding:8px">Users rarely see strong password examples or strength meters.</td><td style="padding:8px">Les utilisateurs voient rarement des exemples ou des jauges de robustesse.</td></tr>
-              <tr><td style="padding:8px"><strong>No breach checking</strong></td><td style="padding:8px">Sites fail to warn if a password was leaked before.</td><td style="padding:8px">Les sites n'avertissent pas si un mot de passe a déjà fuité.</td></tr>
-            </tbody>
-          </table>
+          <ul>
+            <li><strong>50%</strong> of gig workers feel lonely</li>
+            <li><strong>40%</strong> report feeling anxious</li>
+            <li><strong>1/3</strong> experience emotional distress</li>
+            <li><strong>Young workers</strong> are most vulnerable</li>
+          </ul>
         </div>
 
         <div class="callout ex">
-          <p><strong>Key insight:</strong> Insecure systems produce insecure behaviour. / Les systèmes non sécurisés produisent des comportements non sécurisés.</p>
+          <p><strong>Worker testimonies:</strong></p>
+          <ul>
+            <li>"I work to survive, not to live."</li>
+            <li>"I am constantly stressed about tomorrow."</li>
+            <li>"The algorithm decides everything."</li>
+          </ul>
         </div>
       </section>
 
       <section class="card" id="solutions">
         <div class="copybar"><button class="btn ghost" data-copy="#solutions">📋 Copier</button></div>
-        <h2>5️⃣ Solutions — What Platforms Should Do</h2>
+        <h2>6️⃣ Solutions</h2>
         
-        <h3>✅ Blocklists / Deny-lists</h3>
+        <h3>For Governments</h3>
         <div class="callout">
-          <p><strong>English:</strong> Websites should block common passwords like "123456", "password", "qwerty", names, keyboard patterns, and passwords found in breach databases.</p>
-          <p class="muted"><strong>Français:</strong> Les sites doivent bloquer les mots de passe courants, les prénoms, les modèles clavier et les mots de passe compromis.</p>
+          <ul>
+            <li>Better regulation of platforms</li>
+            <li>Legal protection for workers</li>
+            <li>Guaranteed minimum income</li>
+          </ul>
         </div>
 
-        <h3>✅ Strength Meters</h3>
+        <h3>For Platforms</h3>
         <div class="callout ex">
-          <p><strong>English:</strong> A real-time password strength meter guides users visually and helps them create stronger passwords.</p>
-          <p class="muted"><strong>Français:</strong> Une jauge de robustesse en temps réel guide les utilisateurs visuellement.</p>
-        </div>
-
-        <h3>✅ Password Managers</h3>
-        <div class="callout">
-          <p><strong>English:</strong> Sites must allow copy/paste, auto-fill, and browser password managers. Blocking these tools pushes users toward bad behaviours.</p>
-          <p class="muted"><strong>Français:</strong> Les sites doivent permettre le copier-coller, l'auto-remplissage et les gestionnaires de mots de passe. Les interdire pousse à de mauvais comportements.</p>
-        </div>
-
-        <h3>✅ Passphrases</h3>
-        <div class="callout ex">
-          <p><strong>English:</strong> Best practice = long passphrases like "correct horse battery staple" (famous XKCD example). They are long, easy to remember, and very secure.</p>
-          <p class="muted"><strong>Français:</strong> Les passphrases sont la meilleure protection : longues, faciles à mémoriser, très sécurisées.</p>
-        </div>
-
-        <h3>✅ Multi-Factor Authentication (MFA)</h3>
-        <div class="callout">
-          <p><strong>English:</strong> MFA should be default on sensitive platforms. Authentication apps are more secure than SMS.</p>
-          <p class="muted"><strong>Français:</strong> La 2FA doit devenir la norme. Les applications d'authentification sont plus sûres que les SMS.</p>
+          <ul>
+            <li>Algorithmic transparency</li>
+            <li>Fairer rating systems</li>
+            <li>Human supervision</li>
+          </ul>
         </div>
       </section>
 
       <section class="card" id="expressions">
         <div class="copybar"><button class="btn ghost" data-copy="#expressions">📋 Copier</button></div>
-        <h2>6️⃣ Expressions and Writing Helpers</h2>
+        <h2>7️⃣ Useful Expressions</h2>
         
-        <h3>Useful Connectors</h3>
-        <div class="callout points">
-          <table style="width:100%; border-collapse: collapse;">
-            <thead>
-              <tr>
-                <th style="text-align:left; padding:8px; border-bottom:1px solid var(--border)">Function</th>
-                <th style="text-align:left; padding:8px; border-bottom:1px solid var(--border)">English</th>
-                <th style="text-align:left; padding:8px; border-bottom:1px solid var(--border)">French</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr><td style="padding:8px">Cause/Effect</td><td style="padding:8px">because, since, as a result, therefore</td><td style="padding:8px">parce que, puisque, par conséquent, donc</td></tr>
-              <tr><td style="padding:8px">Opposition</td><td style="padding:8px">however, whereas, although, despite</td><td style="padding:8px">cependant, tandis que, bien que, malgré</td></tr>
-              <tr><td style="padding:8px">Addition</td><td style="padding:8px">in addition, moreover, furthermore</td><td style="padding:8px">de plus, en outre, par ailleurs</td></tr>
-            </tbody>
-          </table>
-        </div>
-        
-        <h3>Essay Phrases</h3>
         <div class="callout">
-          <p><strong>English expressions:</strong></p>
           <ul>
-            <li>Weak passwords are often treated as individual failures.</li>
-            <li>Research shows this issue is structural, not personal.</li>
-            <li>Users face cognitive overload and unclear guidelines.</li>
-            <li>Platforms should enforce blocklists and encourage passphrases.</li>
-            <li>Security must be a shared responsibility.</li>
+            <li>The gig economy offers flexibility but creates instability.</li>
+            <li>Gig workers choose flexibility but lose social support.</li>
+            <li>Governments should regulate platforms to protect workers.</li>
+            <li>The gig economy must evolve to protect mental health.</li>
           </ul>
-        </div>
-        
-        <div class="callout ex">
-          <p><strong>Traductions françaises:</strong></p>
-          <ul>
-            <li>Les mots de passe faibles sont souvent vus comme des échecs individuels.</li>
-            <li>Les recherches montrent que ce problème est structurel, pas personnel.</li>
-            <li>Les utilisateurs subissent une surcharge cognitive et un manque de guidance.</li>
-            <li>Les plateformes doivent bloquer les mauvais mots de passe et encourager les passphrases.</li>
-            <li>La sécurité doit être une responsabilité partagée.</li>
-          </ul>
-        </div>
-      </section>
-
-      <section class="card" id="recap">
-        <div class="copybar"><button class="btn ghost" data-copy="#recap">📋 Copier</button></div>
-        <h2>7️⃣ Vocabulary Recap</h2>
-        
-        <div class="callout points">
-          <table style="width:100%; border-collapse: collapse;">
-            <thead>
-              <tr>
-                <th style="text-align:left; padding:8px; border-bottom:1px solid var(--border)">English word</th>
-                <th style="text-align:left; padding:8px; border-bottom:1px solid var(--border)">French equivalent</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr><td style="padding:8px">blame</td><td style="padding:8px">accuser, blâmer</td></tr>
-              <tr><td style="padding:8px">encourage</td><td style="padding:8px">encourager</td></tr>
-              <tr><td style="padding:8px">enforce</td><td style="padding:8px">imposer, appliquer</td></tr>
-              <tr><td style="padding:8px">guidance</td><td style="padding:8px">recommandation, orientation</td></tr>
-              <tr><td style="padding:8px">convenience</td><td style="padding:8px">facilité, commodité</td></tr>
-              <tr><td style="padding:8px">vulnerability</td><td style="padding:8px">vulnérabilité</td></tr>
-              <tr><td style="padding:8px">breach</td><td style="padding:8px">fuite, violation</td></tr>
-              <tr><td style="padding:8px">reuse</td><td style="padding:8px">réutiliser</td></tr>
-              <tr><td style="padding:8px">predictable</td><td style="padding:8px">prévisible</td></tr>
-              <tr><td style="padding:8px">shared responsibility</td><td style="padding:8px">responsabilité partagée</td></tr>
-            </tbody>
-          </table>
         </div>
       </section>
 
       <section class="card" id="conclusion">
         <div class="copybar"><button class="btn ghost" data-copy="#conclusion">📋 Copier</button></div>
-        <h2>8️⃣ Final Takeaways</h2>
+        <h2>8️⃣ Conclusion</h2>
         
         <div class="callout">
-          <p><strong>English:</strong></p>
           <ul>
-            <li>Weak passwords are a <em>systemic</em> problem, not just laziness.</li>
-            <li>Users face real cognitive and psychological limitations.</li>
-            <li>Complexity rules often make security <em>worse</em>.</li>
-            <li>Platforms must guide users with better design.</li>
-            <li>Blocklists, strength meters, and MFA are essential.</li>
-            <li>Passphrases are more secure and easier to remember.</li>
-            <li>Security is a <mark>shared responsibility</mark>.</li>
-          </ul>
-        </div>
-        
-        <div class="callout ex">
-          <p><strong>Français:</strong></p>
-          <ul>
-            <li>Les mots de passe faibles sont un problème <em>systémique</em>, pas de la paresse.</li>
-            <li>Les utilisateurs ont de vraies limites cognitives et psychologiques.</li>
-            <li>Les règles de complexité aggravent souvent la sécurité.</li>
-            <li>Les plateformes doivent guider les utilisateurs avec un meilleur design.</li>
-            <li>Les blocklists, jauges de robustesse et 2FA sont essentiels.</li>
-            <li>Les passphrases sont plus sécurisées et plus faciles à retenir.</li>
-            <li>La sécurité est une <mark>responsabilité partagée</mark>.</li>
+            <li>The gig economy provides <em>freedom</em> but imposes <em>psychological burdens</em></li>
+            <li>Workers lack stability, social support, and control</li>
+            <li>Platforms must become more transparent</li>
+            <li>Society must protect workers' <mark>mental health</mark></li>
           </ul>
         </div>
         
         <div class="callout points">
-          <p><strong>Example closing sentence:</strong></p>
-          <p><strong>English:</strong> Good password security will only be achieved when platforms implement systems that guide, support and protect users by default.</p>
-          <p class="muted"><strong>Français:</strong> Une bonne sécurité des mots de passe ne sera atteinte que lorsque les plateformes mettront en place des systèmes qui guident, soutiennent et protègent les utilisateurs par défaut.</p>
+          <p><strong>Key sentence:</strong> The gig economy must evolve toward greater balance between flexibility and well-being.</p>
         </div>
       </section>
     </main>
@@ -469,268 +480,182 @@
 </div>
 
 <script>
-/* =============================
-   UTILITAIRES / UI
-   ============================= */
-const $ = s => document.querySelector(s);
-const $$ = s => Array.from(document.querySelectorAll(s));
+(function(){
+  const $ = s => document.querySelector(s);
+  const $$ = s => Array.from(document.querySelectorAll(s));
 
-$('#toggleTheme')?.addEventListener('click', ()=>{
-  const cur = document.body.getAttribute('data-theme');
-  document.body.setAttribute('data-theme', cur==='light' ? 'dark' : 'light');
-});
-$('#btnPrint')?.addEventListener('click', ()=> window.print());
-$('#btnScrollFC')?.addEventListener('click', ()=> $('#flashcards')?.scrollIntoView({behavior:'smooth', block:'start'}));
-
-$$('[data-copy]').forEach(btn=>{
-  btn.addEventListener('click', async ()=>{
-    const sel = btn.getAttribute('data-copy'); const el = document.querySelector(sel);
-    if(!el) return;
-    try{
-      await navigator.clipboard.writeText(el.innerText.trim());
-      btn.textContent='✅ Copié !'; setTimeout(()=>btn.textContent='📋 Copier',1200);
-    }catch(e){ btn.textContent='❌'; setTimeout(()=>btn.textContent='📋 Copier',1200); }
+  // Theme toggle
+  $('#toggleTheme').addEventListener('click', () => {
+    const body = document.body;
+    body.setAttribute('data-theme', body.getAttribute('data-theme') === 'light' ? 'dark' : 'light');
   });
-});
 
-/* =============================
-   FLASHCARDS — Données
-   ============================= */
-const CARDS = [
-  {
-    q: "What is the main argument of the article?",
-    a: "We should stop blaming users for weak passwords — platforms are also responsible.\n\nFR:\nIl faut arrêter de blâmer les utilisateurs — les plateformes sont aussi responsables."
-  },
-  {
-    q: "What is 'cognitive overload'?",
-    a: "When the brain has too much information to process.\n\nFR:\nQuand le cerveau a trop d'informations à traiter."
-  },
-  {
-    q: "What is 'password fatigue'?",
-    a: "Exhaustion from managing too many passwords.\n\nFR:\nÉpuisement lié à la gestion de trop de mots de passe."
-  },
-  {
-    q: "Why do complex password rules often fail?",
-    a: "They push users to adopt predictable patterns like 'Password1!'.\n\nFR:\nElles poussent les utilisateurs à adopter des schémas prévisibles comme 'Password1!'."
-  },
-  {
-    q: "What is 'security theatre'?",
-    a: "Security measures that look effective but don't actually improve security.\n\nFR:\nMesures de sécurité qui semblent efficaces mais ne le sont pas vraiment."
-  },
-  {
-    q: "What is a 'passphrase'?",
-    a: "A long password made of several words, easier to remember and more secure.\n\nFR:\nUn mot de passe long composé de plusieurs mots, plus facile à retenir et plus sécurisé."
-  },
-  {
-    q: "Give the famous XKCD passphrase example.",
-    a: "'correct horse battery staple'\n\nFR:\n'correct horse battery staple' — 4 mots aléatoires faciles à retenir."
-  },
-  {
-    q: "What is a 'blocklist' or 'deny-list'?",
-    a: "A list of forbidden weak passwords that websites should block.\n\nFR:\nUne liste de mots de passe faibles interdits que les sites devraient bloquer."
-  },
-  {
-    q: "What is a 'strength meter'?",
-    a: "A visual indicator showing how strong a password is.\n\nFR:\nUn indicateur visuel montrant la robustesse d'un mot de passe."
-  },
-  {
-    q: "What is a 'password manager'?",
-    a: "Software that stores and generates secure passwords.\n\nFR:\nLogiciel qui stocke et génère des mots de passe sécurisés."
-  },
-  {
-    q: "What does MFA / 2FA stand for?",
-    a: "Multi-Factor Authentication / Two-Factor Authentication.\n\nFR:\nAuthentification multi-facteurs / Authentification à deux facteurs."
-  },
-  {
-    q: "Why is MFA important?",
-    a: "It adds an extra security layer beyond the password.\n\nFR:\nElle ajoute une couche de sécurité supplémentaire au-delà du mot de passe."
-  },
-  {
-    q: "What is 'credential stuffing'?",
-    a: "An attack using stolen passwords to try logging into multiple sites.\n\nFR:\nUne attaque utilisant des mots de passe volés pour tenter de se connecter à plusieurs sites."
-  },
-  {
-    q: "What is a 'data breach'?",
-    a: "When hackers steal user data from a company.\n\nFR:\nQuand des hackers volent des données utilisateurs d'une entreprise."
-  },
-  {
-    q: "How many digital accounts does an average person have?",
-    a: "About 90 accounts.\n\nFR:\nEnviron 90 comptes."
-  },
-  {
-    q: "Why is blaming users ineffective?",
-    a: "It ignores cognitive limitations and creates anxiety instead of improvement.\n\nFR:\nCela ignore les limites cognitives et crée de l'anxiété au lieu d'améliorer la situation."
-  },
-  {
-    q: "What is 'shared responsibility' in password security?",
-    a: "Both users AND platforms must work together to ensure security.\n\nFR:\nLes utilisateurs ET les plateformes doivent travailler ensemble pour assurer la sécurité."
-  },
-  {
-    q: "Why do people reuse passwords?",
-    a: "Because memorizing unique passwords for 90+ accounts is impossible.\n\nFR:\nParce que mémoriser des mots de passe uniques pour 90+ comptes est impossible."
-  },
-  {
-    q: "What should websites do instead of blaming users?",
-    a: "Implement blocklists, strength meters, allow password managers, and enable MFA.\n\nFR:\nMettre en place des blocklists, des jauges, autoriser les gestionnaires et activer la 2FA."
-  },
-  {
-    q: "What is the 'complexity fallacy'?",
-    a: "The false belief that complex rules (symbols, capitals) make passwords more secure.\n\nFR:\nLa fausse croyance que des règles complexes rendent les mots de passe plus sûrs."
-  },
-  {
-    q: "Why are authentication apps better than SMS for 2FA?",
-    a: "SMS can be intercepted; apps are more secure.\n\nFR:\nLes SMS peuvent être interceptés ; les applications sont plus sécurisées."
-  },
-  {
-    q: "What happens when sites block copy/paste?",
-    a: "It discourages password managers and pushes users toward weaker passwords.\n\nFR:\nCela décourage les gestionnaires et pousse vers des mots de passe plus faibles."
-  },
-  {
-    q: "What is the main conclusion of the article?",
-    a: "Security must be designed into systems, not demanded from individuals.\n\nFR:\nLa sécurité doit être intégrée aux systèmes, pas exigée des individus."
-  },
-  {
-    q: "Translate: 'blame'",
-    a: "Accuser, blâmer.\n\nEN:\nTo hold someone responsible for something bad."
-  },
-  {
-    q: "Translate: 'enforce'",
-    a: "Imposer, appliquer.\n\nEN:\nTo make sure a rule is followed."
-  },
-  {
-    q: "Translate: 'guidance'",
-    a: "Recommandation, orientation.\n\nEN:\nAdvice or instructions on how to do something."
-  },
-  {
-    q: "Translate: 'vulnerability'",
-    a: "Vulnérabilité.\n\nEN:\nA weakness that can be exploited."
-  },
-  {
-    q: "Translate: 'predictable'",
-    a: "Prévisible.\n\nEN:\nEasy to guess or expect."
-  },
-  {
-    q: "What are predictable password patterns?",
-    a: "Adding '1!' at the end, using seasons + year, capitalizing the first letter.\n\nFR:\nAjouter '1!' à la fin, utiliser saison + année, mettre une majuscule au début."
-  },
-  {
-    q: "Complete: 'Security must be ___, not demanded.'",
-    a: "'Security must be DESIGNED, not demanded.'\n\nFR:\n'La sécurité doit être CONÇUE, pas exigée.'"
-  },
-  {
-    q: "What is the problem with forcing password changes every 90 days?",
-    a: "Users create predictable variations like 'Spring2023' → 'Summer2023'.\n\nFR:\nLes utilisateurs créent des variations prévisibles."
-  },
-  {
-    q: "Why are passphrases better than complex short passwords?",
-    a: "They are longer (more secure) and easier to remember.\n\nFR:\nElles sont plus longues (plus sécurisées) et plus faciles à retenir."
-  },
-  {
-    q: "What should sites check passwords against?",
-    a: "Databases of previously leaked credentials.\n\nFR:\nDes bases de données de mots de passe précédemment fuités."
-  },
-  {
-    q: "What are the most common weak passwords?",
-    a: "'123456', 'password', 'qwerty', simple sequences.\n\nFR:\n'123456', 'password', 'qwerty', des séquences simples."
-  },
-  {
-    q: "Why is 'user behaviour' important in cybersecurity?",
-    a: "Because insecure systems lead to insecure user behaviour.\n\nFR:\nParce que les systèmes non sécurisés entraînent des comportements non sécurisés."
-  },
-  {
-    q: "What does 'security by design' mean?",
-    a: "Building security features into systems from the start.\n\nFR:\nIntégrer la sécurité dans les systèmes dès leur conception."
-  },
-  {
-    q: "Translate: 'convenience'",
-    a: "Facilité, commodité.\n\nEN:\nEase of use; what is easy and comfortable."
-  },
-  {
-    q: "What is the relationship between convenience and security?",
-    a: "Users often choose convenience over security when systems are poorly designed.\n\nFR:\nLes utilisateurs choisissent souvent la facilité plutôt que la sécurité quand les systèmes sont mal conçus."
-  },
-  {
-    q: "How can platforms 'guide' users toward better passwords?",
-    a: "With strength meters, clear examples, and real-time feedback.\n\nFR:\nAvec des jauges de robustesse, des exemples clairs et un retour en temps réel."
-  },
-  {
-    q: "What is the key message for essay writing on this topic?",
-    a: "Password insecurity is structural; solutions require platform changes, not just user education.\n\nFR:\nL'insécurité des mots de passe est structurelle ; les solutions nécessitent des changements de plateformes, pas seulement l'éducation des utilisateurs."
+  // Print
+  $('#btnPrint').addEventListener('click', () => window.print());
+
+  // Scroll to flashcards
+  $('#btnScrollFC').addEventListener('click', () => {
+    $('#flashcards').scrollIntoView({ behavior: 'smooth', block: 'start' });
+  });
+
+  // Copy buttons
+  $$('[data-copy]').forEach(btn => {
+    btn.addEventListener('click', async () => {
+      const el = document.querySelector(btn.getAttribute('data-copy'));
+      if (!el) return;
+      try {
+        await navigator.clipboard.writeText(el.innerText.trim());
+        btn.textContent = '✅ Copié !';
+        setTimeout(() => btn.textContent = '📋 Copier', 1500);
+      } catch (e) {
+        btn.textContent = '❌ Erreur';
+        setTimeout(() => btn.textContent = '📋 Copier', 1500);
+      }
+    });
+  });
+
+  /* =============================
+     FLASHCARDS
+     ============================= */
+  const CARDS = [
+    { q: "What is the gig economy?", a: "An employment system based on short-term, flexible jobs via digital platforms.\n\n🇫🇷 Système d'emploi basé sur des missions courtes via des plateformes numériques." },
+    { q: "What is a 'gig worker'?", a: "A person who works short-term jobs through digital platforms like Uber or Deliveroo.\n\n🇫🇷 Personne qui travaille des missions courtes via des plateformes." },
+    { q: "What is 'algorithmic management'?", a: "When algorithms control work assignments, pay, and visibility instead of human managers.\n\n🇫🇷 Quand les algorithmes contrôlent les missions et le salaire." },
+    { q: "What is 'precarity'?", a: "A state of insecurity and uncertainty in employment.\n\n🇫🇷 État d'insécurité et d'incertitude dans l'emploi." },
+    { q: "What percentage of gig workers feel lonely?", a: "About 50% of gig workers report feeling lonely.\n\n🇫🇷 Environ 50% se sentent seuls." },
+    { q: "What percentage of gig workers feel anxious?", a: "About 40% of gig workers report feeling anxious.\n\n🇫🇷 Environ 40% se sentent anxieux." },
+    { q: "Why do gig workers feel lonely?", a: "They work alone, without colleagues, teams, or regular social interactions.\n\n🇫🇷 Ils travaillent seuls, sans collègues ni interactions sociales." },
+    { q: "Why do gig workers feel powerless?", a: "Algorithms control everything: pay, job availability, rankings.\n\n🇫🇷 Les algorithmes contrôlent tout : salaire, missions, classements." },
+    { q: "What is 'deactivation'?", a: "Being removed from a platform without clear explanation.\n\n🇫🇷 Être retiré d'une plateforme sans explication." },
+    { q: "What is a 'rating system'?", a: "Customer evaluations that impact workers' opportunities and income.\n\n🇫🇷 Évaluations clients qui affectent les opportunités." },
+    { q: "What is 'burnout'?", a: "Physical and mental exhaustion from overwork and constant stress.\n\n🇫🇷 Épuisement physique et mental dû au surmenage." },
+    { q: "What causes anxiety in gig workers?", a: "Unpredictable income, customer ratings, risk of deactivation, irregular hours.\n\n🇫🇷 Revenus imprévisibles, notes clients, risque de désactivation." },
+    { q: "Who are the most vulnerable gig workers?", a: "Young workers are the most vulnerable to mental health issues.\n\n🇫🇷 Les jeunes travailleurs sont les plus vulnérables." },
+    { q: "Gig work: Income difference?", a: "Traditional: regular salary\nGig: unpredictable, per task\n\n🇫🇷 Traditionnel: salaire régulier / Gig: imprévisible" },
+    { q: "Gig work: Benefits difference?", a: "Traditional: health insurance, sick leave\nGig: no benefits\n\n🇫🇷 Traditionnel: assurance, congés / Gig: aucun avantage" },
+    { q: "Gig work: Management difference?", a: "Traditional: human supervisors\nGig: algorithms\n\n🇫🇷 Traditionnel: superviseurs / Gig: algorithmes" },
+    { q: "What is 'on-demand' work?", a: "Work available when needed, not on a fixed schedule.\n\n🇫🇷 Travail disponible à la demande, pas d'horaire fixe." },
+    { q: "Give 3 gig economy platforms.", a: "Uber, Deliveroo, Fiverr, TaskRabbit, Upwork, Airbnb.\n\n🇫🇷 Uber, Deliveroo, Fiverr, TaskRabbit, Upwork, Airbnb." },
+    { q: "What does 'isolation' mean?", a: "Being separated from others, lacking social contact.\n\n🇫🇷 Être séparé des autres, manquer de contact social." },
+    { q: "What is 'mental strain'?", a: "Psychological pressure and stress affecting mental health.\n\n🇫🇷 Pression psychologique affectant la santé mentale." },
+    { q: "What solution can governments provide?", a: "Better regulation, legal protection, guaranteed minimum income.\n\n🇫🇷 Meilleure régulation, protection juridique, revenu minimum." },
+    { q: "What solution can platforms provide?", a: "Algorithmic transparency, fairer ratings, human supervision.\n\n🇫🇷 Transparence algorithmique, notations justes, supervision humaine." },
+    { q: "What is 'algorithmic transparency'?", a: "Making clear how algorithms make decisions about workers.\n\n🇫🇷 Rendre clair comment les algorithmes décident." },
+    { q: "What is 'well-being'?", a: "A state of being comfortable, healthy, and happy.\n\n🇫🇷 État de confort, de santé et de bonheur." },
+    { q: "Translate: 'loneliness'", a: "Solitude\n\n🇬🇧 The feeling of being alone and isolated." },
+    { q: "Translate: 'anxiety'", a: "Anxiété\n\n🇬🇧 Feeling of worry about the future." },
+    { q: "Translate: 'lack of control'", a: "Manque de contrôle\n\n🇬🇧 Not having power over your situation." },
+    { q: "Main message of the article?", a: "The gig economy offers flexibility but has serious negative effects on mental health.\n\n🇫🇷 La gig economy offre flexibilité mais affecte la santé mentale." },
+    { q: "Fraction with emotional distress?", a: "One third (1/3) of gig workers experience emotional distress.\n\n🇫🇷 Un tiers (1/3) ressentent une détresse émotionnelle." },
+    { q: "Link between irregular work and anxiety?", a: "The more irregular the work, the higher the anxiety.\n\n🇫🇷 Plus le travail est irrégulier, plus l'anxiété est forte." },
+    { q: "Complete: 'Freedom but...'", a: "The gig economy provides freedom but imposes psychological burdens.\n\n🇫🇷 Elle offre la liberté mais impose des fardeaux psychologiques." },
+    { q: "Why must gig economy evolve?", a: "To protect workers' mental health and balance flexibility with well-being.\n\n🇫🇷 Pour protéger la santé mentale et équilibrer flexibilité/bien-être." },
+    { q: "What do gig workers need?", a: "Both economic support AND psychological protection.\n\n🇫🇷 Soutien économique ET protection psychologique." },
+    { q: "What happens without intervention?", a: "Loneliness, anxiety, and instability will continue to grow.\n\n🇫🇷 Solitude, anxiété et instabilité continueront de croître." },
+    { q: "Why is gig economy growing?", a: "It offers flexibility for workers and lower costs for companies.\n\n🇫🇷 Flexibilité pour travailleurs, coûts réduits pour entreprises." },
+    { q: "Best essay structure for this topic?", a: "Problem → Causes → Consequences → Solutions\n\n🇫🇷 Problème → Causes → Conséquences → Solutions" }
+  ];
+
+  let currentIndex = 0;
+  let cardOrder = CARDS.map((_, i) => i);
+  let isFlipped = false;
+
+  const flashcard = $('#flashcard');
+  const fcQuestion = $('#fcQuestion');
+  const fcAnswer = $('#fcAnswer');
+  const fcIndex = $('#fcIndex');
+  const fcTotal = $('#fcTotal');
+  const fcBar = $('#fcBar');
+
+  fcTotal.textContent = CARDS.length;
+
+  function updateCard() {
+    const card = CARDS[cardOrder[currentIndex]];
+    fcQuestion.textContent = card.q;
+    fcAnswer.textContent = card.a;
+    fcIndex.textContent = currentIndex + 1;
+    fcBar.style.width = ((currentIndex + 1) / CARDS.length * 100) + '%';
+    
+    // Toujours montrer la face question quand on change de carte
+    isFlipped = false;
+    flashcard.classList.remove('flipped');
   }
-];
 
-/* =============================
-   FLASHCARDS — État & Logique
-   ============================= */
-let state = {
-  order: CARDS.map((_,i)=>i),
-  i: 0,
-  flipped: false
-};
-
-const els = {
-  q: $('#q'), a: $('#a'), card: $('#card'),
-  index: $('#index'), total: $('#total'), bar: $('#bar')
-};
-els.total.textContent = state.order.length.toString();
-
-function currentIndex(){
-  return state.order[state.i] ?? 0;
-}
-function currentCard(){
-  return CARDS[currentIndex()];
-}
-function renderCard(){
-  const c = currentCard();
-  els.q.textContent = c.q;
-  els.a.textContent = c.a;
-  els.index.textContent = (state.i+1).toString();
-  const progress = ((state.i) / state.order.length) * 100;
-  els.bar.style.width = Math.max(4, progress).toFixed(1) + '%';
-  state.flipped = false;
-  els.card.classList.remove('is-flipped');
-}
-function nextCard(){
-  if(state.i < state.order.length - 1){ state.i++; }
-  else { state.i = 0; }
-  renderCard();
-}
-function prevCard(){
-  if(state.i > 0){ state.i--; } else { state.i = state.order.length-1; }
-  renderCard();
-}
-function flip(){ state.flipped = !state.flipped; els.card.classList.toggle('is-flipped'); }
-function shuffle(){
-  for(let i=state.order.length-1;i>0;i--){
-    const j = Math.floor(Math.random()*(i+1));
-    [state.order[i], state.order[j]] = [state.order[j], state.order[i]];
+  function flipCard() {
+    isFlipped = !isFlipped;
+    if (isFlipped) {
+      flashcard.classList.add('flipped');
+    } else {
+      flashcard.classList.remove('flipped');
+    }
   }
-  state.i = 0; renderCard();
-}
-function speak(text){
-  try{
-    const u = new SpeechSynthesisUtterance(text);
-    u.lang = 'en-US';
-    window.speechSynthesis.cancel();
-    window.speechSynthesis.speak(u);
-  }catch(e){}
-}
 
-$('#btnFlip')?.addEventListener('click', flip);
-$('#card')?.addEventListener('click', flip);
-$('#btnNext')?.addEventListener('click', nextCard);
-$('#btnPrev')?.addEventListener('click', prevCard);
-$('#btnShuffle')?.addEventListener('click', shuffle);
-$('#btnSpeak')?.addEventListener('click', ()=> speak(state.flipped ? els.a.textContent : els.q.textContent));
+  function nextCard() {
+    currentIndex = (currentIndex + 1) % CARDS.length;
+    updateCard();
+  }
 
-window.addEventListener('keydown', (e)=>{
-  if(['INPUT','TEXTAREA'].includes((e.target||{}).tagName)) return;
-  if(e.code==='Space'){ e.preventDefault(); flip(); }
-  else if(e.key==='ArrowRight'){ nextCard(); }
-  else if(e.key==='ArrowLeft'){ prevCard(); }
-});
+  function prevCard() {
+    currentIndex = (currentIndex - 1 + CARDS.length) % CARDS.length;
+    updateCard();
+  }
 
-renderCard();
+  function shuffleCards() {
+    for (let i = cardOrder.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      [cardOrder[i], cardOrder[j]] = [cardOrder[j], cardOrder[i]];
+    }
+    currentIndex = 0;
+    updateCard();
+  }
+
+  function resetCards() {
+    cardOrder = CARDS.map((_, i) => i);
+    currentIndex = 0;
+    updateCard();
+  }
+
+  function speakText() {
+    const text = isFlipped ? CARDS[cardOrder[currentIndex]].a : CARDS[cardOrder[currentIndex]].q;
+    const englishText = text.split('\n\n')[0];
+    
+    if ('speechSynthesis' in window) {
+      window.speechSynthesis.cancel();
+      const utterance = new SpeechSynthesisUtterance(englishText);
+      utterance.lang = 'en-US';
+      utterance.rate = 0.9;
+      window.speechSynthesis.speak(utterance);
+    }
+  }
+
+  // Event listeners
+  flashcard.addEventListener('click', flipCard);
+  $('#btnFlip').addEventListener('click', flipCard);
+  $('#btnNext').addEventListener('click', nextCard);
+  $('#btnPrev').addEventListener('click', prevCard);
+  $('#btnShuffle').addEventListener('click', shuffleCards);
+  $('#btnReset').addEventListener('click', resetCards);
+  $('#btnSpeak').addEventListener('click', speakText);
+
+  // Keyboard
+  document.addEventListener('keydown', (e) => {
+    if (e.target.tagName === 'INPUT' || e.target.tagName === 'TEXTAREA') return;
+    
+    if (e.code === 'Space') {
+      e.preventDefault();
+      flipCard();
+    } else if (e.key === 'ArrowRight') {
+      e.preventDefault();
+      nextCard();
+    } else if (e.key === 'ArrowLeft') {
+      e.preventDefault();
+      prevCard();
+    }
+  });
+
+  // Init
+  updateCard();
+})();
 </script>
 </body>
 </html>
