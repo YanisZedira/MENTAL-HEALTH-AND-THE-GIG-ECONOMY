@@ -1,0 +1,736 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Stop Blaming People for Bad Passwords — Cours + Flashcards</title>
+<meta name="description" content="Fiche de révision complète (Cybersecurity) + Flashcards interactives : flip 3D, progression, TTS, impression PDF." />
+<style>
+  /* ===============================
+     Design System
+     =============================== */
+  :root{
+    --bg:#0b1020;
+    --surface:#0f172a;
+    --panel:#111b33;
+    --text:#e6eaf2;
+    --muted:#a3adc2;
+    --link:#7aa2ff;
+    --accent:#38bdf8;
+    --accent-2:#2dd4bf;
+    --warn:#fbbf24;
+    --ok:#34d399;
+    --danger:#fb7185;
+    --chip:#17233e;
+    --border:#1d2a44;
+    --shadow: 0 10px 28px rgba(0,0,0,.35);
+    --radius:16px; --r-sm:12px;
+  }
+  [data-theme="light"]{
+    --bg:#f7fafc;
+    --surface:#ffffff;
+    --panel:#ffffff;
+    --text:#0f172a;
+    --muted:#475569;
+    --link:#2563eb;
+    --accent:#0ea5e9;
+    --accent-2:#14b8a6;
+    --warn:#f59e0b;
+    --ok:#22c55e;
+    --danger:#f43f5e;
+    --chip:#e2e8f0;
+    --border:#e5e7eb;
+    --shadow: 0 10px 28px rgba(15, 23, 42, .08);
+  }
+
+  *{box-sizing:border-box}
+  html,body{margin:0; background:var(--bg); color:var(--text);
+    font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Inter, "Helvetica Neue", Arial;}
+  a{color:var(--link); text-decoration:none}
+  .container{max-width:1180px; margin:28px auto 100px; padding:0 18px}
+
+  header.hero{
+    background:linear-gradient(140deg, rgba(122,162,255,.18), rgba(45,212,191,.08));
+    border:1px solid var(--border);
+    border-radius:var(--radius);
+    padding:22px;
+    box-shadow:var(--shadow);
+  }
+
+  .callout.danger {
+    border-left-color: var(--danger);
+    background: linear-gradient(90deg, rgba(251, 113, 133, 0.14), transparent);
+  }
+
+  .fc-a, .fc-q {
+    white-space: pre-line;
+  }
+
+  .hero h1{margin:0 0 6px; font-size: clamp(24px, 4vw, 36px)}
+  .hero .sub{margin:0; color:var(--muted)}
+  .toolbar{display:flex; gap:10px; flex-wrap:wrap; margin-top:14px}
+  .btn{
+    appearance:none; border:1px solid var(--border); background:var(--surface);
+    color:var(--text); padding:10px 14px; border-radius:12px; cursor:pointer;
+    font-weight:700; box-shadow:var(--shadow); transition:.18s transform, .18s box-shadow, .18s background;
+  }
+  .btn:hover{transform: translateY(-1px)}
+  .btn.primary{background:var(--link); color:#fff; border-color:transparent}
+  .btn.success{background:var(--ok); color:#00140a; border-color:transparent}
+  .btn.warn{background:var(--warn); color:#1b1200; border-color:transparent}
+  .btn.ghost{background:transparent}
+
+  .grid{display:grid; grid-template-columns: 1fr; gap:22px; margin-top:22px}
+  @media (min-width: 1000px){ .grid{ grid-template-columns: 380px 1fr } }
+
+  .fc-panel{
+    background:var(--panel); border:1px solid var(--border); border-radius:var(--radius);
+    box-shadow:var(--shadow); padding:16px; position:sticky; top:14px; align-self:start;
+  }
+  .fc-header{display:flex; justify-content:space-between; gap:10px; align-items:center; margin-bottom:10px}
+  .fc-title{margin:0; font-size:20px}
+  .meta{color:var(--muted); font-size:13px}
+  .progress{
+    height:10px; border-radius:999px; background:rgba(122,162,255,.18); overflow:hidden; border:1px solid var(--border)
+  }
+  .progress > i{display:block; height:100%; width:0%; background:linear-gradient(90deg, var(--accent), var(--accent-2)); transition:.25s width}
+  .score{display:flex; gap:8px; align-items:center; margin:10px 0 6px}
+  .score .pill{background:var(--chip); color:var(--muted); border:1px solid var(--border);
+    border-radius:999px; padding:6px 10px; font-weight:700; font-size:12px}
+  .fc-controls{display:flex; gap:8px; flex-wrap:wrap; margin:8px 0 12px}
+  .toggle{display:inline-flex; align-items:center; gap:8px; padding:8px 10px; border-radius:12px; border:1px solid var(--border); background:var(--surface)}
+  .toggle input{transform: scale(1.2)}
+  .fc-cardwrap{perspective:1100px}
+  .flashcard{
+    position:relative; width:100%; min-height:180px; border-radius:16px; border:1px solid var(--border);
+    transform-style:preserve-3d; transition: transform .6s; cursor:pointer;
+    background:linear-gradient(180deg, rgba(122,162,255,.07), rgba(45,212,191,.07));
+    box-shadow:var(--shadow);
+  }
+  .flashcard.is-flipped{ transform: rotateY(180deg) }
+  .face{
+    position:absolute; inset:0; padding:18px; backface-visibility:hidden; display:flex; flex-direction:column; justify-content:center; gap:10px;
+  }
+  .face.back{ transform: rotateY(180deg) }
+  .fc-q{font-weight:800; font-size: clamp(16px, 2.2vw, 22px)}
+  .fc-a{font-size: clamp(14px, 2vw, 18px); color:var(--text)}
+  .fc-hint{color:var(--muted); font-size:13px}
+  .fc-actions{display:flex; gap:10px; margin-top:12px; flex-wrap:wrap}
+  .btn.icon{display:inline-flex; align-items:center; gap:8px}
+  .caps{font-variant: all-small-caps; letter-spacing:.4px}
+  .key{font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; background:var(--chip); border:1px solid var(--border);
+    border-radius:8px; padding:2px 6px; font-size:12px; color:var(--muted)}
+
+  .card{
+    background:var(--panel); border:1px solid var(--border); border-radius:var(--radius);
+    padding:22px; box-shadow:var(--shadow); position:relative;
+  }
+  .card h2{margin-top:0; font-size: clamp(20px, 3vw, 28px)}
+  .card h3{color:var(--accent); margin-top: 1.5rem}
+  .copybar{position:absolute; top:12px; right:12px; display:flex; gap:8px}
+  .badge{display:inline-block; background:var(--chip); border:1px solid var(--border); color:var(--muted);
+    padding:6px 10px; border-radius:999px; font-weight:700; font-size:12px; margin:6px 6px 0 0}
+  .callout{border-left:6px solid var(--accent); background:linear-gradient(90deg, rgba(56,189,248,.14), transparent);
+    padding:12px 14px; border-radius: var(--r-sm); margin:12px 0}
+  .callout.ex{border-left-color:var(--accent-2); background:linear-gradient(90deg, rgba(45,212,191,.14), transparent)}
+  .callout.points{border-left-color:#a78bfa; background:linear-gradient(90deg, rgba(167,139,250,.14), transparent)}
+  mark{background:linear-gradient(180deg, rgba(250,204,21,.36), rgba(250,204,21,.18)); border-radius:4px; padding:0 .2em}
+  ul{margin-top:6px}
+  .hr{height:1px; background:var(--border); margin:14px 0}
+  .toc{display:flex; gap:8px; flex-wrap:wrap; margin-top:8px}
+  .toc a{padding:8px 10px; border:1px solid var(--border); border-radius:12px; background:var(--surface); color:var(--link); font-weight:700}
+  .muted{color:var(--muted)}
+  .hidden{display:none !important}
+  
+  .answer-container { margin-top: 10px; }
+  .answer-toggle { background: var(--chip); border: 1px solid var(--border); color: var(--muted);
+    padding: 8px 12px; border-radius: 8px; cursor: pointer; font-size: 14px; margin-top: 8px; display: inline-block; }
+  .answer-content { display: none; margin-top: 10px; padding: 12px; background: rgba(56,189,248,.08); 
+    border-radius: 8px; border-left: 3px solid var(--accent); }
+  .answer-content.show { display: block; }
+
+  @media print{
+    .fc-panel, .toolbar, .copybar, .toc, .answer-toggle{display:none !important}
+    .grid{grid-template-columns: 1fr}
+    body{background:#fff; color:#000}
+    .card{break-inside: avoid; border-color:#ddd; box-shadow:none}
+    .answer-content { display: block !important; }
+  }
+</style>
+</head>
+<body data-theme="dark">
+<div class="container">
+  <header class="hero">
+    <h1>🔐 STOP BLAMING PEOPLE FOR BAD PASSWORDS</h1>
+    <p class="sub">🧩 THEME: CYBERSECURITY & DIGITAL DESIGN | Level B2-C1 — Fiche complète + Flashcards interactives</p>
+    <div class="toolbar">
+      <button class="btn" id="toggleTheme">🌗 Mode clair/sombre</button>
+      <button class="btn warn" id="btnPrint">🖨️ Imprimer / PDF</button>
+      <button class="btn ghost" id="btnScrollFC">🃏 Aller aux flashcards</button>
+    </div>
+  </header>
+
+  <div class="grid" id="grid">
+    <!-- ============ FLASHCARDS ============ -->
+    <aside class="fc-panel" id="flashcards">
+      <div class="fc-header">
+        <h2 class="fc-title">Flashcards <span class="caps" style="color:var(--muted)">Passwords</span></h2>
+        <span class="meta">Raccourcis : <span class="key">Espace</span> retourner • <span class="key">→</span> suivant</span>
+      </div>
+
+      <div class="score">
+        <span class="pill">Carte : <b id="index">1</b>/<b id="total">-</b></span>
+      </div>
+      <div class="progress" aria-label="Progression"><i id="bar"></i></div>
+
+      <div class="fc-controls" role="group" aria-label="Actions flashcards">
+        <button class="btn icon" id="btnPrev">⬅️ Préc.</button>
+        <button class="btn icon" id="btnFlip">🔁 Retourner</button>
+        <button class="btn icon" id="btnNext">➡️ Suiv.</button>
+        <button class="btn icon" id="btnShuffle">🎲 Shuffle</button>
+        <button class="btn icon" id="btnSpeak">🔊 Lire</button>
+      </div>
+
+      <div class="fc-cardwrap">
+        <div class="flashcard" id="card" aria-live="polite">
+          <div class="face front">
+            <div class="fc-q" id="q">…</div>
+            <div class="fc-hint muted">Clique / <span class="key">Espace</span> pour retourner</div>
+          </div>
+          <div class="face back">
+            <div class="fc-a" id="a">…</div>
+          </div>
+        </div>
+      </div>
+    </aside>
+
+    <!-- ============ FICHE DE COURS ============ -->
+    <main>
+      <!-- Sommaire rapide -->
+      <div class="card">
+        <h2>Sommaire rapide</h2>
+        <div class="toc">
+          <a href="#context">General Context</a>
+          <a href="#vocabulary">Key Vocabulary</a>
+          <a href="#causes">Why Users Fail</a>
+          <a href="#responsibility">Platform Responsibility</a>
+          <a href="#solutions">Solutions</a>
+          <a href="#expressions">Expressions</a>
+          <a href="#recap">Vocabulary Recap</a>
+          <a href="#conclusion">Conclusion</a>
+        </div>
+      </div>
+
+      <section class="card" id="context">
+        <div class="copybar"><button class="btn ghost" data-copy="#context">📋 Copier</button></div>
+        <h2>1️⃣ General Context</h2>
+        
+        <div class="callout">
+          <p><strong>English:</strong> Password security is one of the most widespread and persistent cybersecurity problems in the world. Every year, billions of accounts are compromised due to weak, predictable, or reused passwords. Despite years of cybersecurity education, lists of the most common passwords still include "123456", "password", "qwerty", and simple sequences. The text argues that it is wrong to blame users alone, because password insecurity is caused by systemic, structural, psychological, and design-related factors.</p>
+          <p class="muted"><strong>Français:</strong> La sécurité des mots de passe est l'un des problèmes de cybersécurité les plus répandus au monde. Chaque année, des milliards de comptes sont piratés à cause de mots de passe faibles, prévisibles ou réutilisés. Malgré des campagnes de sensibilisation depuis 15 ans, les mots de passe les plus utilisés restent "123456", "password" ou "qwerty". Le texte affirme qu'il est injuste et inefficace de blâmer uniquement les utilisateurs, car l'insécurité provient de facteurs systémiques, structurels, psychologiques et liés au design.</p>
+        </div>
+      </section>
+
+      <section class="card" id="vocabulary">
+        <div class="copybar"><button class="btn ghost" data-copy="#vocabulary">📋 Copier</button></div>
+        <h2>2️⃣ Key Vocabulary and Definitions</h2>
+        
+        <div class="callout points">
+          <table style="width:100%; border-collapse: collapse;">
+            <thead>
+              <tr>
+                <th style="text-align:left; padding:8px; border-bottom:1px solid var(--border)">English term</th>
+                <th style="text-align:left; padding:8px; border-bottom:1px solid var(--border)">Definition (EN)</th>
+                <th style="text-align:left; padding:8px; border-bottom:1px solid var(--border)">Traduction française</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr><td style="padding:8px"><strong>Password</strong></td><td style="padding:8px">A secret string of characters used to access an account.</td><td style="padding:8px">Mot de passe : chaîne secrète pour accéder à un compte.</td></tr>
+              <tr><td style="padding:8px"><strong>Passphrase</strong></td><td style="padding:8px">A long password made of several words, easier to remember.</td><td style="padding:8px">Phrase de passe : mot de passe long composé de plusieurs mots.</td></tr>
+              <tr><td style="padding:8px"><strong>Cognitive overload</strong></td><td style="padding:8px">When the brain has too much information to process.</td><td style="padding:8px">Surcharge cognitive : quand le cerveau a trop d'informations à traiter.</td></tr>
+              <tr><td style="padding:8px"><strong>Password fatigue</strong></td><td style="padding:8px">Exhaustion from managing too many passwords.</td><td style="padding:8px">Fatigue des mots de passe : épuisement lié à la gestion de trop de mots de passe.</td></tr>
+              <tr><td style="padding:8px"><strong>Blocklist / Deny-list</strong></td><td style="padding:8px">A list of forbidden weak passwords.</td><td style="padding:8px">Liste noire : liste de mots de passe faibles interdits.</td></tr>
+              <tr><td style="padding:8px"><strong>Strength meter</strong></td><td style="padding:8px">A visual indicator showing password strength.</td><td style="padding:8px">Jauge de robustesse : indicateur visuel de la force du mot de passe.</td></tr>
+              <tr><td style="padding:8px"><strong>Password manager</strong></td><td style="padding:8px">Software that stores and generates secure passwords.</td><td style="padding:8px">Gestionnaire de mots de passe : logiciel qui stocke et génère des mots de passe.</td></tr>
+              <tr><td style="padding:8px"><strong>MFA / 2FA</strong></td><td style="padding:8px">Multi-Factor Authentication: extra security layer beyond password.</td><td style="padding:8px">Authentification multi-facteurs : couche de sécurité supplémentaire.</td></tr>
+              <tr><td style="padding:8px"><strong>Credential stuffing</strong></td><td style="padding:8px">Attack using stolen passwords on multiple sites.</td><td style="padding:8px">Bourrage d'identifiants : attaque utilisant des mots de passe volés.</td></tr>
+              <tr><td style="padding:8px"><strong>Data breach</strong></td><td style="padding:8px">When hackers steal user data from a company.</td><td style="padding:8px">Fuite de données : vol de données utilisateurs.</td></tr>
+              <tr><td style="padding:8px"><strong>Security theatre</strong></td><td style="padding:8px">Security measures that look effective but aren't.</td><td style="padding:8px">Théâtre sécuritaire : mesures qui semblent efficaces mais ne le sont pas.</td></tr>
+              <tr><td style="padding:8px"><strong>User behaviour</strong></td><td style="padding:8px">How users act when creating or managing passwords.</td><td style="padding:8px">Comportement utilisateur : comment les utilisateurs gèrent leurs mots de passe.</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+
+      <section class="card" id="causes">
+        <div class="copybar"><button class="btn ghost" data-copy="#causes">📋 Copier</button></div>
+        <h2>3️⃣ Why Do Users Create Weak Passwords?</h2>
+        
+        <h3>1. Cognitive Limitations</h3>
+        <div class="callout">
+          <p><strong>English:</strong> Humans cannot remember long, complex, unique passwords for 50+ accounts. Cognitive load is too high. Memory is optimized for meaning, not for random strings like "Hg2$!pR97". The average person has 90 digital accounts — memorizing 90 unique passwords is impossible.</p>
+          <p class="muted"><strong>Français:</strong> Les êtres humains ne peuvent pas mémoriser des dizaines de mots de passe longs, uniques et complexes. La charge cognitive est trop lourde. La mémoire humaine retient le sens, pas des chaînes aléatoires. Une personne moyenne a 90 comptes numériques — mémoriser 90 mots de passe uniques est impossible.</p>
+        </div>
+
+        <h3>2. The Complexity Fallacy</h3>
+        <div class="callout ex">
+          <p><strong>English:</strong> Websites often force users to include symbols, upper-case letters, numbers, etc., believing it improves security. But research shows this makes passwords worse, because users adopt predictable modifications: "Password" → "Password1!" or "Paris2023" → "Paris2023!". These patterns are easy for hackers to guess.</p>
+          <p class="muted"><strong>Français:</strong> Les sites imposent souvent des exigences absurdes (symboles, majuscules, chiffres). Or, les recherches montrent que cela aggrave la situation : les gens adoptent des transformations prévisibles. Ces schémas sont faciles à deviner pour les hackers.</p>
+        </div>
+
+        <h3>3. Password Fatigue</h3>
+        <div class="callout">
+          <p><strong>English:</strong> Because people have accounts for emails, banking, shopping, work, entertainment, social media, etc., they face password fatigue, leading to shortcuts like reusing the same password everywhere or using simple variations.</p>
+          <p class="muted"><strong>Français:</strong> Parce que les utilisateurs ont des comptes partout (banque, travail, réseaux sociaux, e-commerce…), ils vivent une fatigue des mots de passe, qui les pousse à simplifier et réutiliser.</p>
+        </div>
+
+        <h3>4. Blaming Users is Counterproductive</h3>
+        <div class="callout danger">
+          <p><strong>English:</strong> Shaming people does not change behaviour. It creates anxiety, avoidance, and frustration. It ignores psychological limitations and prevents meaningful reforms.</p>
+          <p class="muted"><strong>Français:</strong> Blâmer les utilisateurs est inutile. Cela provoque de l'anxiété, de l'évitement et de la frustration. Cela ignore les limites psychologiques et empêche les vraies réformes.</p>
+        </div>
+      </section>
+
+      <section class="card" id="responsibility">
+        <div class="copybar"><button class="btn ghost" data-copy="#responsibility">📋 Copier</button></div>
+        <h2>4️⃣ Platform Responsibility — How Websites Contribute to Insecurity</h2>
+        
+        <div class="callout points">
+          <table style="width:100%; border-collapse: collapse;">
+            <thead>
+              <tr>
+                <th style="text-align:left; padding:8px; border-bottom:1px solid var(--border)">Problem</th>
+                <th style="text-align:left; padding:8px; border-bottom:1px solid var(--border)">English explanation</th>
+                <th style="text-align:left; padding:8px; border-bottom:1px solid var(--border)">Traduction française</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr><td style="padding:8px"><strong>Allowing weak passwords</strong></td><td style="padding:8px">Many platforms still accept "123456" or "password".</td><td style="padding:8px">Beaucoup de plateformes acceptent encore des mots de passe très faibles.</td></tr>
+              <tr><td style="padding:8px"><strong>Poor design choices</strong></td><td style="padding:8px">Complex rules that don't actually improve security.</td><td style="padding:8px">Règles complexes qui n'améliorent pas vraiment la sécurité.</td></tr>
+              <tr><td style="padding:8px"><strong>Blocking helpful tools</strong></td><td style="padding:8px">Some sites prevent copy/paste, discouraging password managers.</td><td style="padding:8px">Certains sites bloquent le copier-coller, décourageant les gestionnaires.</td></tr>
+              <tr><td style="padding:8px"><strong>Lack of guidance</strong></td><td style="padding:8px">Users rarely see strong password examples or strength meters.</td><td style="padding:8px">Les utilisateurs voient rarement des exemples ou des jauges de robustesse.</td></tr>
+              <tr><td style="padding:8px"><strong>No breach checking</strong></td><td style="padding:8px">Sites fail to warn if a password was leaked before.</td><td style="padding:8px">Les sites n'avertissent pas si un mot de passe a déjà fuité.</td></tr>
+            </tbody>
+          </table>
+        </div>
+
+        <div class="callout ex">
+          <p><strong>Key insight:</strong> Insecure systems produce insecure behaviour. / Les systèmes non sécurisés produisent des comportements non sécurisés.</p>
+        </div>
+      </section>
+
+      <section class="card" id="solutions">
+        <div class="copybar"><button class="btn ghost" data-copy="#solutions">📋 Copier</button></div>
+        <h2>5️⃣ Solutions — What Platforms Should Do</h2>
+        
+        <h3>✅ Blocklists / Deny-lists</h3>
+        <div class="callout">
+          <p><strong>English:</strong> Websites should block common passwords like "123456", "password", "qwerty", names, keyboard patterns, and passwords found in breach databases.</p>
+          <p class="muted"><strong>Français:</strong> Les sites doivent bloquer les mots de passe courants, les prénoms, les modèles clavier et les mots de passe compromis.</p>
+        </div>
+
+        <h3>✅ Strength Meters</h3>
+        <div class="callout ex">
+          <p><strong>English:</strong> A real-time password strength meter guides users visually and helps them create stronger passwords.</p>
+          <p class="muted"><strong>Français:</strong> Une jauge de robustesse en temps réel guide les utilisateurs visuellement.</p>
+        </div>
+
+        <h3>✅ Password Managers</h3>
+        <div class="callout">
+          <p><strong>English:</strong> Sites must allow copy/paste, auto-fill, and browser password managers. Blocking these tools pushes users toward bad behaviours.</p>
+          <p class="muted"><strong>Français:</strong> Les sites doivent permettre le copier-coller, l'auto-remplissage et les gestionnaires de mots de passe. Les interdire pousse à de mauvais comportements.</p>
+        </div>
+
+        <h3>✅ Passphrases</h3>
+        <div class="callout ex">
+          <p><strong>English:</strong> Best practice = long passphrases like "correct horse battery staple" (famous XKCD example). They are long, easy to remember, and very secure.</p>
+          <p class="muted"><strong>Français:</strong> Les passphrases sont la meilleure protection : longues, faciles à mémoriser, très sécurisées.</p>
+        </div>
+
+        <h3>✅ Multi-Factor Authentication (MFA)</h3>
+        <div class="callout">
+          <p><strong>English:</strong> MFA should be default on sensitive platforms. Authentication apps are more secure than SMS.</p>
+          <p class="muted"><strong>Français:</strong> La 2FA doit devenir la norme. Les applications d'authentification sont plus sûres que les SMS.</p>
+        </div>
+      </section>
+
+      <section class="card" id="expressions">
+        <div class="copybar"><button class="btn ghost" data-copy="#expressions">📋 Copier</button></div>
+        <h2>6️⃣ Expressions and Writing Helpers</h2>
+        
+        <h3>Useful Connectors</h3>
+        <div class="callout points">
+          <table style="width:100%; border-collapse: collapse;">
+            <thead>
+              <tr>
+                <th style="text-align:left; padding:8px; border-bottom:1px solid var(--border)">Function</th>
+                <th style="text-align:left; padding:8px; border-bottom:1px solid var(--border)">English</th>
+                <th style="text-align:left; padding:8px; border-bottom:1px solid var(--border)">French</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr><td style="padding:8px">Cause/Effect</td><td style="padding:8px">because, since, as a result, therefore</td><td style="padding:8px">parce que, puisque, par conséquent, donc</td></tr>
+              <tr><td style="padding:8px">Opposition</td><td style="padding:8px">however, whereas, although, despite</td><td style="padding:8px">cependant, tandis que, bien que, malgré</td></tr>
+              <tr><td style="padding:8px">Addition</td><td style="padding:8px">in addition, moreover, furthermore</td><td style="padding:8px">de plus, en outre, par ailleurs</td></tr>
+            </tbody>
+          </table>
+        </div>
+        
+        <h3>Essay Phrases</h3>
+        <div class="callout">
+          <p><strong>English expressions:</strong></p>
+          <ul>
+            <li>Weak passwords are often treated as individual failures.</li>
+            <li>Research shows this issue is structural, not personal.</li>
+            <li>Users face cognitive overload and unclear guidelines.</li>
+            <li>Platforms should enforce blocklists and encourage passphrases.</li>
+            <li>Security must be a shared responsibility.</li>
+          </ul>
+        </div>
+        
+        <div class="callout ex">
+          <p><strong>Traductions françaises:</strong></p>
+          <ul>
+            <li>Les mots de passe faibles sont souvent vus comme des échecs individuels.</li>
+            <li>Les recherches montrent que ce problème est structurel, pas personnel.</li>
+            <li>Les utilisateurs subissent une surcharge cognitive et un manque de guidance.</li>
+            <li>Les plateformes doivent bloquer les mauvais mots de passe et encourager les passphrases.</li>
+            <li>La sécurité doit être une responsabilité partagée.</li>
+          </ul>
+        </div>
+      </section>
+
+      <section class="card" id="recap">
+        <div class="copybar"><button class="btn ghost" data-copy="#recap">📋 Copier</button></div>
+        <h2>7️⃣ Vocabulary Recap</h2>
+        
+        <div class="callout points">
+          <table style="width:100%; border-collapse: collapse;">
+            <thead>
+              <tr>
+                <th style="text-align:left; padding:8px; border-bottom:1px solid var(--border)">English word</th>
+                <th style="text-align:left; padding:8px; border-bottom:1px solid var(--border)">French equivalent</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr><td style="padding:8px">blame</td><td style="padding:8px">accuser, blâmer</td></tr>
+              <tr><td style="padding:8px">encourage</td><td style="padding:8px">encourager</td></tr>
+              <tr><td style="padding:8px">enforce</td><td style="padding:8px">imposer, appliquer</td></tr>
+              <tr><td style="padding:8px">guidance</td><td style="padding:8px">recommandation, orientation</td></tr>
+              <tr><td style="padding:8px">convenience</td><td style="padding:8px">facilité, commodité</td></tr>
+              <tr><td style="padding:8px">vulnerability</td><td style="padding:8px">vulnérabilité</td></tr>
+              <tr><td style="padding:8px">breach</td><td style="padding:8px">fuite, violation</td></tr>
+              <tr><td style="padding:8px">reuse</td><td style="padding:8px">réutiliser</td></tr>
+              <tr><td style="padding:8px">predictable</td><td style="padding:8px">prévisible</td></tr>
+              <tr><td style="padding:8px">shared responsibility</td><td style="padding:8px">responsabilité partagée</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+
+      <section class="card" id="conclusion">
+        <div class="copybar"><button class="btn ghost" data-copy="#conclusion">📋 Copier</button></div>
+        <h2>8️⃣ Final Takeaways</h2>
+        
+        <div class="callout">
+          <p><strong>English:</strong></p>
+          <ul>
+            <li>Weak passwords are a <em>systemic</em> problem, not just laziness.</li>
+            <li>Users face real cognitive and psychological limitations.</li>
+            <li>Complexity rules often make security <em>worse</em>.</li>
+            <li>Platforms must guide users with better design.</li>
+            <li>Blocklists, strength meters, and MFA are essential.</li>
+            <li>Passphrases are more secure and easier to remember.</li>
+            <li>Security is a <mark>shared responsibility</mark>.</li>
+          </ul>
+        </div>
+        
+        <div class="callout ex">
+          <p><strong>Français:</strong></p>
+          <ul>
+            <li>Les mots de passe faibles sont un problème <em>systémique</em>, pas de la paresse.</li>
+            <li>Les utilisateurs ont de vraies limites cognitives et psychologiques.</li>
+            <li>Les règles de complexité aggravent souvent la sécurité.</li>
+            <li>Les plateformes doivent guider les utilisateurs avec un meilleur design.</li>
+            <li>Les blocklists, jauges de robustesse et 2FA sont essentiels.</li>
+            <li>Les passphrases sont plus sécurisées et plus faciles à retenir.</li>
+            <li>La sécurité est une <mark>responsabilité partagée</mark>.</li>
+          </ul>
+        </div>
+        
+        <div class="callout points">
+          <p><strong>Example closing sentence:</strong></p>
+          <p><strong>English:</strong> Good password security will only be achieved when platforms implement systems that guide, support and protect users by default.</p>
+          <p class="muted"><strong>Français:</strong> Une bonne sécurité des mots de passe ne sera atteinte que lorsque les plateformes mettront en place des systèmes qui guident, soutiennent et protègent les utilisateurs par défaut.</p>
+        </div>
+      </section>
+    </main>
+  </div>
+</div>
+
+<script>
+/* =============================
+   UTILITAIRES / UI
+   ============================= */
+const $ = s => document.querySelector(s);
+const $$ = s => Array.from(document.querySelectorAll(s));
+
+$('#toggleTheme')?.addEventListener('click', ()=>{
+  const cur = document.body.getAttribute('data-theme');
+  document.body.setAttribute('data-theme', cur==='light' ? 'dark' : 'light');
+});
+$('#btnPrint')?.addEventListener('click', ()=> window.print());
+$('#btnScrollFC')?.addEventListener('click', ()=> $('#flashcards')?.scrollIntoView({behavior:'smooth', block:'start'}));
+
+$$('[data-copy]').forEach(btn=>{
+  btn.addEventListener('click', async ()=>{
+    const sel = btn.getAttribute('data-copy'); const el = document.querySelector(sel);
+    if(!el) return;
+    try{
+      await navigator.clipboard.writeText(el.innerText.trim());
+      btn.textContent='✅ Copié !'; setTimeout(()=>btn.textContent='📋 Copier',1200);
+    }catch(e){ btn.textContent='❌'; setTimeout(()=>btn.textContent='📋 Copier',1200); }
+  });
+});
+
+/* =============================
+   FLASHCARDS — Données
+   ============================= */
+const CARDS = [
+  {
+    q: "What is the main argument of the article?",
+    a: "We should stop blaming users for weak passwords — platforms are also responsible.\n\nFR:\nIl faut arrêter de blâmer les utilisateurs — les plateformes sont aussi responsables."
+  },
+  {
+    q: "What is 'cognitive overload'?",
+    a: "When the brain has too much information to process.\n\nFR:\nQuand le cerveau a trop d'informations à traiter."
+  },
+  {
+    q: "What is 'password fatigue'?",
+    a: "Exhaustion from managing too many passwords.\n\nFR:\nÉpuisement lié à la gestion de trop de mots de passe."
+  },
+  {
+    q: "Why do complex password rules often fail?",
+    a: "They push users to adopt predictable patterns like 'Password1!'.\n\nFR:\nElles poussent les utilisateurs à adopter des schémas prévisibles comme 'Password1!'."
+  },
+  {
+    q: "What is 'security theatre'?",
+    a: "Security measures that look effective but don't actually improve security.\n\nFR:\nMesures de sécurité qui semblent efficaces mais ne le sont pas vraiment."
+  },
+  {
+    q: "What is a 'passphrase'?",
+    a: "A long password made of several words, easier to remember and more secure.\n\nFR:\nUn mot de passe long composé de plusieurs mots, plus facile à retenir et plus sécurisé."
+  },
+  {
+    q: "Give the famous XKCD passphrase example.",
+    a: "'correct horse battery staple'\n\nFR:\n'correct horse battery staple' — 4 mots aléatoires faciles à retenir."
+  },
+  {
+    q: "What is a 'blocklist' or 'deny-list'?",
+    a: "A list of forbidden weak passwords that websites should block.\n\nFR:\nUne liste de mots de passe faibles interdits que les sites devraient bloquer."
+  },
+  {
+    q: "What is a 'strength meter'?",
+    a: "A visual indicator showing how strong a password is.\n\nFR:\nUn indicateur visuel montrant la robustesse d'un mot de passe."
+  },
+  {
+    q: "What is a 'password manager'?",
+    a: "Software that stores and generates secure passwords.\n\nFR:\nLogiciel qui stocke et génère des mots de passe sécurisés."
+  },
+  {
+    q: "What does MFA / 2FA stand for?",
+    a: "Multi-Factor Authentication / Two-Factor Authentication.\n\nFR:\nAuthentification multi-facteurs / Authentification à deux facteurs."
+  },
+  {
+    q: "Why is MFA important?",
+    a: "It adds an extra security layer beyond the password.\n\nFR:\nElle ajoute une couche de sécurité supplémentaire au-delà du mot de passe."
+  },
+  {
+    q: "What is 'credential stuffing'?",
+    a: "An attack using stolen passwords to try logging into multiple sites.\n\nFR:\nUne attaque utilisant des mots de passe volés pour tenter de se connecter à plusieurs sites."
+  },
+  {
+    q: "What is a 'data breach'?",
+    a: "When hackers steal user data from a company.\n\nFR:\nQuand des hackers volent des données utilisateurs d'une entreprise."
+  },
+  {
+    q: "How many digital accounts does an average person have?",
+    a: "About 90 accounts.\n\nFR:\nEnviron 90 comptes."
+  },
+  {
+    q: "Why is blaming users ineffective?",
+    a: "It ignores cognitive limitations and creates anxiety instead of improvement.\n\nFR:\nCela ignore les limites cognitives et crée de l'anxiété au lieu d'améliorer la situation."
+  },
+  {
+    q: "What is 'shared responsibility' in password security?",
+    a: "Both users AND platforms must work together to ensure security.\n\nFR:\nLes utilisateurs ET les plateformes doivent travailler ensemble pour assurer la sécurité."
+  },
+  {
+    q: "Why do people reuse passwords?",
+    a: "Because memorizing unique passwords for 90+ accounts is impossible.\n\nFR:\nParce que mémoriser des mots de passe uniques pour 90+ comptes est impossible."
+  },
+  {
+    q: "What should websites do instead of blaming users?",
+    a: "Implement blocklists, strength meters, allow password managers, and enable MFA.\n\nFR:\nMettre en place des blocklists, des jauges, autoriser les gestionnaires et activer la 2FA."
+  },
+  {
+    q: "What is the 'complexity fallacy'?",
+    a: "The false belief that complex rules (symbols, capitals) make passwords more secure.\n\nFR:\nLa fausse croyance que des règles complexes rendent les mots de passe plus sûrs."
+  },
+  {
+    q: "Why are authentication apps better than SMS for 2FA?",
+    a: "SMS can be intercepted; apps are more secure.\n\nFR:\nLes SMS peuvent être interceptés ; les applications sont plus sécurisées."
+  },
+  {
+    q: "What happens when sites block copy/paste?",
+    a: "It discourages password managers and pushes users toward weaker passwords.\n\nFR:\nCela décourage les gestionnaires et pousse vers des mots de passe plus faibles."
+  },
+  {
+    q: "What is the main conclusion of the article?",
+    a: "Security must be designed into systems, not demanded from individuals.\n\nFR:\nLa sécurité doit être intégrée aux systèmes, pas exigée des individus."
+  },
+  {
+    q: "Translate: 'blame'",
+    a: "Accuser, blâmer.\n\nEN:\nTo hold someone responsible for something bad."
+  },
+  {
+    q: "Translate: 'enforce'",
+    a: "Imposer, appliquer.\n\nEN:\nTo make sure a rule is followed."
+  },
+  {
+    q: "Translate: 'guidance'",
+    a: "Recommandation, orientation.\n\nEN:\nAdvice or instructions on how to do something."
+  },
+  {
+    q: "Translate: 'vulnerability'",
+    a: "Vulnérabilité.\n\nEN:\nA weakness that can be exploited."
+  },
+  {
+    q: "Translate: 'predictable'",
+    a: "Prévisible.\n\nEN:\nEasy to guess or expect."
+  },
+  {
+    q: "What are predictable password patterns?",
+    a: "Adding '1!' at the end, using seasons + year, capitalizing the first letter.\n\nFR:\nAjouter '1!' à la fin, utiliser saison + année, mettre une majuscule au début."
+  },
+  {
+    q: "Complete: 'Security must be ___, not demanded.'",
+    a: "'Security must be DESIGNED, not demanded.'\n\nFR:\n'La sécurité doit être CONÇUE, pas exigée.'"
+  },
+  {
+    q: "What is the problem with forcing password changes every 90 days?",
+    a: "Users create predictable variations like 'Spring2023' → 'Summer2023'.\n\nFR:\nLes utilisateurs créent des variations prévisibles."
+  },
+  {
+    q: "Why are passphrases better than complex short passwords?",
+    a: "They are longer (more secure) and easier to remember.\n\nFR:\nElles sont plus longues (plus sécurisées) et plus faciles à retenir."
+  },
+  {
+    q: "What should sites check passwords against?",
+    a: "Databases of previously leaked credentials.\n\nFR:\nDes bases de données de mots de passe précédemment fuités."
+  },
+  {
+    q: "What are the most common weak passwords?",
+    a: "'123456', 'password', 'qwerty', simple sequences.\n\nFR:\n'123456', 'password', 'qwerty', des séquences simples."
+  },
+  {
+    q: "Why is 'user behaviour' important in cybersecurity?",
+    a: "Because insecure systems lead to insecure user behaviour.\n\nFR:\nParce que les systèmes non sécurisés entraînent des comportements non sécurisés."
+  },
+  {
+    q: "What does 'security by design' mean?",
+    a: "Building security features into systems from the start.\n\nFR:\nIntégrer la sécurité dans les systèmes dès leur conception."
+  },
+  {
+    q: "Translate: 'convenience'",
+    a: "Facilité, commodité.\n\nEN:\nEase of use; what is easy and comfortable."
+  },
+  {
+    q: "What is the relationship between convenience and security?",
+    a: "Users often choose convenience over security when systems are poorly designed.\n\nFR:\nLes utilisateurs choisissent souvent la facilité plutôt que la sécurité quand les systèmes sont mal conçus."
+  },
+  {
+    q: "How can platforms 'guide' users toward better passwords?",
+    a: "With strength meters, clear examples, and real-time feedback.\n\nFR:\nAvec des jauges de robustesse, des exemples clairs et un retour en temps réel."
+  },
+  {
+    q: "What is the key message for essay writing on this topic?",
+    a: "Password insecurity is structural; solutions require platform changes, not just user education.\n\nFR:\nL'insécurité des mots de passe est structurelle ; les solutions nécessitent des changements de plateformes, pas seulement l'éducation des utilisateurs."
+  }
+];
+
+/* =============================
+   FLASHCARDS — État & Logique
+   ============================= */
+let state = {
+  order: CARDS.map((_,i)=>i),
+  i: 0,
+  flipped: false
+};
+
+const els = {
+  q: $('#q'), a: $('#a'), card: $('#card'),
+  index: $('#index'), total: $('#total'), bar: $('#bar')
+};
+els.total.textContent = state.order.length.toString();
+
+function currentIndex(){
+  return state.order[state.i] ?? 0;
+}
+function currentCard(){
+  return CARDS[currentIndex()];
+}
+function renderCard(){
+  const c = currentCard();
+  els.q.textContent = c.q;
+  els.a.textContent = c.a;
+  els.index.textContent = (state.i+1).toString();
+  const progress = ((state.i) / state.order.length) * 100;
+  els.bar.style.width = Math.max(4, progress).toFixed(1) + '%';
+  state.flipped = false;
+  els.card.classList.remove('is-flipped');
+}
+function nextCard(){
+  if(state.i < state.order.length - 1){ state.i++; }
+  else { state.i = 0; }
+  renderCard();
+}
+function prevCard(){
+  if(state.i > 0){ state.i--; } else { state.i = state.order.length-1; }
+  renderCard();
+}
+function flip(){ state.flipped = !state.flipped; els.card.classList.toggle('is-flipped'); }
+function shuffle(){
+  for(let i=state.order.length-1;i>0;i--){
+    const j = Math.floor(Math.random()*(i+1));
+    [state.order[i], state.order[j]] = [state.order[j], state.order[i]];
+  }
+  state.i = 0; renderCard();
+}
+function speak(text){
+  try{
+    const u = new SpeechSynthesisUtterance(text);
+    u.lang = 'en-US';
+    window.speechSynthesis.cancel();
+    window.speechSynthesis.speak(u);
+  }catch(e){}
+}
+
+$('#btnFlip')?.addEventListener('click', flip);
+$('#card')?.addEventListener('click', flip);
+$('#btnNext')?.addEventListener('click', nextCard);
+$('#btnPrev')?.addEventListener('click', prevCard);
+$('#btnShuffle')?.addEventListener('click', shuffle);
+$('#btnSpeak')?.addEventListener('click', ()=> speak(state.flipped ? els.a.textContent : els.q.textContent));
+
+window.addEventListener('keydown', (e)=>{
+  if(['INPUT','TEXTAREA'].includes((e.target||{}).tagName)) return;
+  if(e.code==='Space'){ e.preventDefault(); flip(); }
+  else if(e.key==='ArrowRight'){ nextCard(); }
+  else if(e.key==='ArrowLeft'){ prevCard(); }
+});
+
+renderCard();
+</script>
+</body>
+</html>
